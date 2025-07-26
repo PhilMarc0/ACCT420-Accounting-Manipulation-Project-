@@ -1,0 +1,2636 @@
+---
+title: "ACCT420 Group 2 Final Report"
+author: "Isaac Tan E, Aaren Ng, Law Qi Xue, Akshay Bryan, Justin Ryan Sy Yu"
+output:
+  html_document:
+    theme: united
+    highlight: default
+    toc_float:
+      collapsed: false
+    self_contained: false
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: source
+---
+
+# 1. Accounting Manipulation & Importance of Detection in Healthcare
+
+## 1.1 Overview: Accounting Manipulation in Healthcare
+
+Accounting manipulation refers to the intentional misrepresentation of financial information to present a misleading picture of a company’s financial health. In the healthcare sector, such practices can include inflating revenues through fraudulent billing, misclassifying expenses, or overstating asset values. These actions may be driven by motives to meet financial targets, attract investments, or evade regulatory scrutiny.
+
+A notable example is the Theranos scandal, where founder Elizabeth Holmes and former president Ramesh Balwani were convicted of wire fraud and conspiracy after misleading investors and patients about the capabilities of their blood-testing technology (United States v. Holmes, 2022). This case resulted in significant financial losses and undermined trust in healthcare innovations.
+
+Another case is Kangmei Pharmaceutical, a Chinese company that overstated its revenue by 29 billion RMB and inflated its cash holdings by 88.7 billion RMB between 2016 and 2019 (Chen & Li, 2022). This deception led to severe financial restatements and highlighted the risks of inadequate financial regulation in the healthcare sector.
+
+## 1.2 Importance of Detection in Healthcare
+Detecting accounting manipulation in healthcare is vital due to its far-reaching consequences, including financial losses, compromised patient care, and erosion of public trust. Recent enforcement actions underscore the significance of vigilance in this area.
+
+In 2023, Cigna Group agreed to pay over $172 million to settle allegations of submitting false diagnosis codes to Medicare Advantage, which led to inflated reimbursements (HG.org, 2023). This case emphasizes the need for accurate reporting and the potential repercussions of fraudulent practices.
+
+Similarly, in 2024, Community Health Network Inc. (CHN), an integrated health system, agreed to pay $345 million to resolve allegations of violating the Stark Law by compensating physicians above fair market value and providing incentive-based bonuses tied to referral volumes (JD Supra, 2024). This settlement highlights the importance of adhering to fair compensation practices and the legal risks of non-compliance.
+
+These cases illustrate the critical need for robust detection mechanisms to identify and prevent accounting manipulation in healthcare. Implementing stringent internal controls, conducting regular audits, and fostering a culture of transparency are essential steps in safeguarding the integrity of financial reporting within the industry.
+
+# 2. Dependent, Independent Variables and Analysis Method
+
+Given the high stakes involved, detecting accounting manipulation in the healthcare industry is critical. By analyzing financial indicators such as current ratio, debt-to-equity ratio, overvaluation, and restatement of financial statements, stakeholders can identify red flags that signal potential fraud or financial misrepresentation. This study aims to develop models that predict and detect these manipulations, ensuring greater transparency and accountability within the healthcare sector.
+
+## 2.1 Dependent Variables
+
+### Debt-to-Equity Ratio
+
+This financial metric measures a company's leverage by dividing total debt by total shareholders' equity (Total Debt / Total Equity). We selected this ratio as an indicator of financial health and potential business failure. Companies with high debt-to-equity ratios often face financial distress or may be engaging in fraudulent activities. A notable example is Lehman Brothers, whose ratio exceeded 30:1 before its collapse (Berman & Knight, 2009). Similarly, Valeant Pharmaceuticals (now Bausch Health) exemplifies how excessive leverage can lead to financial distress. Between 2010-2015, Valeant pursued an aggressive acquisition strategy financed primarily through debt, causing its debt-to-equity ratio to soar above 5:1 (Ingram & Malenko, 2022). This unsustainable debt burden, combined with accounting irregularities and pricing controversies, triggered a severe stock price collapse in 2015-2016, with the company losing over 90% of its market value (Tan & Benoit, 2017). Valeant's subsequent years were marked by asset sales, debt restructuring, and a comprehensive business model overhaul as the company struggled to recover from its debt-fueled expansion strategy (Gelles & de la Merced, 2018).
+
+Since our analysis spans multiple industries with varying financial structures, we've established industry-specific thresholds for this metric. A company will receive a positive indicator if its debt-to-equity ratio exceeds its industry's threshold or falls below zero. These thresholds are based on estimated industry norms, as precise standards are not universally established.
+
+#### Drugs, Cosmetics, and Healthcare (3400)
+
+Debt-to-Equity Threshold: > 1.5
+Industry Norm: Approximately 1.0 (CSIMarket, 2024)
+Rationale: This sector benefits from stable healthcare revenue streams and requires less capital investment, resulting in moderate leverage needs.
+
+#### Diversified (3410)
+
+Debt-to-Equity Threshold: > 2.5
+Industry Norm: Around 2.0 (Damodaran, 2025)
+Rationale: Conglomerates typically maintain higher leverage to support multiple business segments and finance strategic acquisitions across diverse industries.
+
+#### Cosmetics & Toiletries (3420)
+
+Debt-to-Equity Threshold: > 1.5
+Industry Norm: Generally below 1.0 (FullRatio, 2025)
+Rationale: This sector prioritizes branding and production capabilities over capital-intensive R&D, allowing for lower leverage ratios.
+
+#### Ethical Drug Manufacturers (3430)
+
+Debt-to-Equity Threshold: > 2.5
+Industry Norm: Approximately 2.0
+Rationale: Pharmaceutical companies maintain higher leverage to fund substantial R&D investments, exemplified by Eli Lilly's 2.18 ratio in 2025 (Investopedia, 2025).
+
+#### Medical, Surgical & Dental Suppliers (3440)
+
+Debt-to-Equity Threshold: > 1.5
+Industry Norm: Generally below 1.0 (CSIMarket, 2024)
+Rationale: These suppliers typically require less R&D investment, allowing them to operate with lower debt levels.
+
+#### Drug Store Chains (7040)
+
+Debt-to-Equity Threshold: > 2.5
+Industry Norm: 1.0 to 2.0 (CSIMarket, 2024)
+Rationale: Retail pharmacy chains often leverage debt to finance real estate expansion and maintain substantial inventory requirements.
+
+#### Medical Services (8550)
+
+Debt-to-Equity Threshold: > 2.5
+Industry Norm: 0.8 to 2.0 (ReadyRatios, 2023)
+Rationale: Healthcare providers show considerable variation in leverage, reflecting diverse approaches to funding infrastructure development and operational requirements.
+
+### Current Ratio
+
+The Current Ratio is calculated by dividing Current Assets by Current Liabilities, measuring a company's short-term liquidity and ability to meet immediate financial obligations. The optimal range typically falls between 1 and 2.5. A ratio below 1 indicates that a company may not have sufficient assets to cover its short-term obligations, potentially signaling financial distress or insolvency risk. Conversely, a ratio exceeding 2.5 may indicate excessive inventory accumulation or difficulties in collecting accounts receivable.One of the most notable case of current ratio being an indicator of fraud is the Satyam Computer Services scandal of 2009, known as 'India's Enron,' which exemplifies how an abnormally high and suspiciously stable current ratio served as a key indicator of financial statement fraud, with the company ultimately admitting to inflating cash balances by over $1 billion while overstating accounts receivable, creating a deceptively healthy liquidity position (Bhasin, 2013).
+
+In fraud detection modeling, monitoring abnormal current ratios is crucial as they often provide early indications of financial manipulation. Our model incorporates industry-specific thresholds for this metric, allowing for more effective identification of potential fraud indicators—particularly when these anomalies occur in conjunction with other risk factors. This approach significantly enhances the model's overall fraud detection capabilities.
+
+#### Drugs, Cosmetics, and Healthcare (3400)
+
+Current Ratio Threshold: < 1.3 or > 2.5
+Industry Norm: 1.3 to 2.5
+Rationale: This diverse sector follows typical liquidity patterns. We've conservatively elevated the minimum threshold to 1.3 to account for the industry's breadth.
+
+#### Diversified (3410)
+
+Current Ratio Threshold: < 1.3 or > 2.5
+Industry Norm: 1.3 to 2.5
+Rationale: Companies with multiple revenue streams require balanced liquidity. Major conglomerates like Johnson & Johnson typically maintain ratios around 2.0.
+
+#### Cosmetics & Toiletries (3420)
+
+Current Ratio Threshold: < 1.2 or > 2.0
+Industry Norm: 1.2 to 2.0
+Rationale: This FMCG segment operates with rapid inventory turnover, requiring sufficient liquidity to manage seasonal demand fluctuations.
+
+#### Ethical Drug Manufacturers (3430)
+
+Current Ratio Threshold: < 1.5 or > 3.0
+Industry Norm: 1.5 to 3.0
+Rationale: Pharmaceutical firms balance substantial R&D investments with strong patent-protected revenue streams. The higher upper threshold accommodates cash reserves for future research initiatives.
+
+#### Medical, Surgical & Dental Suppliers (3440)
+
+Current Ratio Threshold: < 1.5 or > 2.5
+Industry Norm: 1.5 to 2.5
+Rationale: Higher minimum threshold reflects capital-intensive operations and the need for enhanced liquidity between major procurement cycles.
+
+#### Drug Store Chains (7040)
+
+Current Ratio Threshold: < 1.0 or > 1.8
+Industry Norm: 1.0 to 1.8
+Rationale: Retail pharmacies operate with high inventory turnover and narrow margins, justifying lower liquidity requirements.
+
+#### Medical Services (8550)
+
+Current Ratio Threshold: < 1.2 or > 2.0
+Industry Norm: 1.2 to 2.0
+Rationale: Healthcare providers maintain moderate liquidity due to consistent patient revenue (often subject to insurance processing delays) balanced against substantial operational expenses.
+
+### Restatement of Financial Statements
+
+This indicator is flagged when the auditor requires a company to restate the figures on its financial statements due to misstatements or accounting errors. Some examples of restatements include recording higher sales revenue and lower expenses, therefore indicating higher profits, which raises suspicion of fraudulent activities. Companies with no indication of restatements are a sign of strong internal controls and reduced financial fraud, while in practice, a restatement is a formal admission that past statements were inaccurate, and it often raises red flags about a firm’s accounting practices and internal controls (Center of Audit Quality, 2002). We believe restatements are a crucial fraud detection signal, as a large majority (70%) of misstatements are due to inaccurate revenue and expense recording, rather than simple human errors (Center of Audit Quality, 2002). Healthcaer and Pharma is also the Industry with the second most restatements, taking up 14% of all restatements (Center of Audit Quality, 2002). 
+
+Healthcare companies in particular face heightened restatement risk due to complex revenue recognition involving multiple payors and varying reimbursement terms, which makes accurate reporting highly judgmental and error-prone. This is compounded by heavy reliance on subjective estimates—such as claims reserves and doubtful accounts—that are vulnerable to manipulation. Additionally, strict regulatory requirements and performance-linked funding create strong pressure to meet financial targets, increasing the incentive for aggressive or even fraudulent accounting practices.Therefore, we believe that whether a company would be asked to restate its accounts is an important model variable to consider and to predict as a signal for fraud. 
+
+### Overvaluation
+
+A company is defined to be overvalued when the market valuation of shares exceeds the book value of the company’s Net Assets less retained earnings. This could mean that investors are optimistic towards a particular healthcare company or that the company has aggressive earnings projections.
+
+## 2.2 Independent Variables
+
+### Current Ratio  
+
+The current ratio (current assets / current liabilities) serves as a critical indicator of a company's short-term debt payment capacity, where an abnormally high ratio may indicate asset inflation through fabricated cash or receivables designed to conceal financial distress (Investopedia, 2023). Enron's collapse in 2001 exemplifies this risk, as the company concealed significant liabilities in off-balance-sheet entities while artificially inflating its current ratio with falsified cash and receivables; when the fraudulent activities were exposed, Enron's actual liquidity position was revealed to be virtually nonexistent (History.com, 2019).
+
+### Debt-to-Equity Ratio  
+
+This fundamental metric (total debt / shareholders' equity) quantifies a company's leverage position, where suspiciously low ratios may conceal hidden debt obligations, while exceptionally high ratios could indicate borrowing activities intended to mask fraudulent operations (Corporate Finance Institute, 2023). WorldCom's 2002 accounting scandal demonstrates this principle, as the company deliberately misclassified $11 billion in operating expenses as capital assets, artificially reducing its debt-to-equity ratio; when properly reclassified, the corrected ratio revealed the company's overwhelming debt burden (BBC News, 2002).
+
+### Return on Equity (ROE)  
+
+ROE (net income / shareholders' equity) provides insight into a company's profitability relative to shareholder investment, with unusually elevated ROE potentially signaling fabricated profits designed to enhance investor confidence (The Balance, 2022). WorldCom's fraudulent accounting practices included improperly capitalizing expenses rather than recording them as operational costs, artificially inflating the company's ROE metrics and misleading investors about its true profitability (Investopedia, n.d.).
+
+### Profit Margin  
+
+Profit margin (net income / revenue) quantifies the percentage of revenue converted to profit, with unusually high or inconsistent margins potentially indicating overstated revenues or concealed costs. HealthSouth's 2003 fraud case illustrates this warning sign, as the company reported 15% profit margins by fabricating $2.7 billion in earnings; the scheme ultimately collapsed when the reported profitability failed to correlate with actual cash flow performance (CNN Money, 2003).
+
+### Inventory Turnover
+
+Inventory turnover (cost of goods sold / average inventory) measures sales efficiency and inventory management, where abnormally low turnover rates may indicate deliberately overstated inventory values intended to artificially inflate asset positions (Investopedia, 2023). Prior to its collapse, Enron exhibited unusually low inventory turnover metrics, suggesting potential manipulation of inventory valuations as part of its broader fraudulent financial reporting practices (Investopedia, n.d.).
+
+### Z-Score
+
+The Z-Score combines multiple financial ratios to predict bankruptcy risk, with low scores signaling financial distress that might motivate fraudulent reporting to conceal underlying problems (Corporate Finance Institute, 2023). Lehman Brothers' 2008 collapse exemplifies this risk, as the firm concealed approximately $50 billion in debt through "Repo 105" transactions to mask its deteriorating Z-Score; when accurately calculated, the true Z-Score would have revealed the firm's imminent collapse risk (NY Times, 2010).
+
+### Working Capital  
+
+Working capital (current assets - current liabilities) indicates a company's short-term financial health, with artificially inflated working capital potentially concealing insolvency through fabricated asset valuations (The Balance, 2022). A negative working capital implies that a company does not have sufficient capabilities to run its day-to-day operations. Parmalat's massive 2003 fraud demonstrates this warning sign, as the company fabricated approximately $5 billion in cash and receivables to inflate working capital metrics; when the fraud was uncovered, the company was revealed to be fundamentally insolvent (BBC News, 2004).
+
+### Industry  
+
+Industry-specific norms provide essential context for evaluating financial metrics, with significant deviations potentially signaling the manipulation of financial data. Wirecard's extensive fraud illustrates this concept, as the company exploited the inherent complexity of the fintech industry to conceal fraudulent accounting practices and mislead investors about its true financial condition (Rubio, 2020).
+
+### Restated Later  
+
+Financial restatements represent corrections to previously reported financial data, often resulting from fraud, making them a significant indicator of potential reporting irregularities (SEC, 2023). Some methods companies undertake to “cook the books” include overstating revenue and assets and understating expenses and liabilities, which overall helps to paint a picture of higher levels of profits and net assets than it actually is. Toshiba's 2015 accounting scandal demonstrates this warning sign, as the company was forced to restate $1.9 billion in previously reported profits after systematically inflating earnings over a seven-year period (Pfanner, 2015).
+
+### Overvaluation  
+
+Overvaluation occurs when market prices substantially exceed fundamental value, often driven by artificially inflated financial metrics (Investopedia, 2023). Theranos provides a stark example of this phenomenon, as the company achieved massive market valuation through various public relations campaigns boasting their breakthrough technologies, despite having any such industry-leading methods, with the inflated valuation serving to mask underlying fraudulent activities (U.S. Department of Justice, 2022).
+
+### Auditor Opinion  
+
+Auditor opinions assess the accuracy and reliability of financial statements, with clean opinions issued despite underlying problems potentially concealing fraudulent activities (PCAOB, 2023). Enron's 2001 collapse highlights this risk, as Arthur Andersen repeatedly issued unqualified opinions despite Enron's hidden losses and questionable accounting practices, significantly delaying fraud detection and exacerbating investor losses (History.com, 2019).
+
+###  Property, Plant and Equipment (PPE)
+
+PPE accounts track tangible operational assets, with overstated valuations potentially inflating both asset positions and reported profitability (Investopedia, 2023). Some methods of overvaluing PPE include capitalising on repairs and maintenance expenses, which should be under the Profit & Loss Statement, or an understatement of annual depreciation expenses, which overstated the PPE’s net book value. WorldCom's 2002 accounting scandal illustrates this warning sign, as the company improperly classified $3.8 billion in operating expenses as PPE capital investments, artificially inflating asset values until the fraud was exposed by internal auditors (SEC, 2002).
+
+### Brands, Patents, Net  
+
+Intangible assets such as brands and patents present valuation challenges that can be exploited to inflate reported assets (Corporate Finance Institute, 2023). For intangible assets to be viable, its valuation should be measured based on how much a third party is willing to pay a premium over the company’s net asset valuation, which is quite subjective, allowing companies to state higher valuation of intangible assets than usual. AOL Time Warner's 2002 accounting issues demonstrate this risk, as the company overstated intangible asset values by approximately $54 billion during its merger transaction, with the overvaluation subsequently revealed through massive writedowns (NY Times, 2002).
+
+### Year on Year Change in Revenue % Change
+
+Sudden, substantial revenue increases may indicate fabricated sales transactions or improper revenue recognition (Investopedia, 2023). Enron's 2001 collapse exemplifies this warning sign, as the company reported a 700% revenue increase between 1999-2000 through fictitious energy trades that generated reported revenue without corresponding cash flow (History.com, 2019).
+
+###  Year-on-Year Change in Net Income
+
+Inconsistent or unexplained net income growth patterns may signal artificial profit manipulation (The Balance, 2022), such as overstatement of revenue and understatement or omission of certain operating expenses. HealthSouth's 2003 fraud case illustrates this indicator, as the company consistently reported 20-30% annual net income growth by fabricating financial entries that concealed $1.4 billion in fraudulent accounting (CNN Money, 2003).
+
+###  Year-on-Year Change in Cash Flow
+
+Cash flow trends that diverge significantly from reported profit metrics may indicate financial manipulation (Investopedia, 2023). Luckin Coffee's accounting scandal demonstrates this warning sign, as the company reported substantial revenue growth without corresponding cash flow increases, raising suspicions that were later confirmed when extensive fraudulent activities were uncovered (SEC, 2020).
+
+###  Year-on-Year Change in Total Debt
+
+Rapid debt accumulation may indicate attempts to sustain operations through borrowing while concealing underlying financial problems (Corporate Finance Institute, 2023). Lehman Brothers' 2008 collapse highlights this risk, as the firm concealed significant debt increases through "Repo 105" transactions, effectively masking approximately $50 billion in leveraged positions (NY Times, 2010).
+
+###  Year-on-Year Change in Research & Development
+
+Unusual fluctuations in R&D expenditures may indicate attempts to manipulate earnings or support false operational claims (Investopedia, 2023). Valeant Pharmaceuticals demonstrated this warning sign by implementing dramatic R&D reductions while simultaneously reporting enhanced earnings, drawing regulatory scrutiny that preceded the company's accounting scandal (Transparently.ai, 2021).
+
+###  Year-on-Year Change in Accounts Receivable Days 
+
+Increasing accounts receivable days may signal fabricated sales transactions that generate reported revenue without actual cash collection (Fritzell, 2021). This also indicates that companies do not conduct proper due diligence assessing the credit-worthines of their customers before selling its products and services to them. Satyam Computers exhibited this indicator prior to its fraud exposure, with steadily increasing receivable days suggesting uncollectible revenue from potentially fictitious transactions (Jaiswal, 2025).
+
+###  Year-on-Year Change in Market Cap
+
+Extreme fluctuations in market capitalization may reflect artificial valuation driven by fraudulent financial reporting (Investopedia, 2023). Wirecard's 2020 collapse exemplifies this warning sign as the company's market capitalization surged approximately 300% between 2015-2018 based on $2.1 billion in fabricated profits, before catastrophically collapsing when the fraud was exposed (Reuters, 2020).
+
+## 2.3 Analysis Method
+
+We have decided to analyse the four indicators above across the whole WRDS healthcare industry dataset. We will indicate fraudulent activities across these four indicators using predicted positives. As long as a company has all four indicators flagged, we will conduct further investigation on these companies for signs of fraudulent activities.
+
+# 3. Data Cleaning
+
+## 3.1  Percentage Change
+
+Certain raw values were not comparable to each other, which could skew our results. For example, the current ratio and accounts receivable days would be very different numbers due to their different implications. The current ratio simply compares total current assets with total current liabilities while accounts receivable days represent the number of days for a company to collect payment after making a sale on credit. The current ratio would normally be a single-digit number while accounts receivable days can be two digits or even three digits. 
+
+Due to these differences, another dataset was created to transform the variables into percentage change to be able to make them more comparable. 
+
+## 3.2  Winsorization
+
+Winsorization is a statistical transformation that limits extreme values in a dataset by capping them at a predefined percentile threshold, often at the 5th and 95th percentiles. This technique helps reduce the influence of outliers without entirely removing them, ensuring that statistical calculations such as means and standard deviations remain robust.
+
+To ensure data quality and improve the robustness of analysis, Winsorization was applied to impute missing values in numeric columns. The dataset initially contained several missing values across key financial metrics such as profit margin, revenue, accounts receivable days, and total debt. Instead of removing records with missing values, which could result in data loss. Winsorization was used to replace NA values with the trimmed mean of the respective variable.
+
+In this process, missing values (NA) in numeric columns were replaced using a Winsorized mean. First, missing values were removed to avoid interference in the computation. The Winsorized transformation was then applied, ignoring extreme values beyond the 5th and 95th percentiles. The adjusted data was then used to compute the mean, which was subsequently used to impute missing values for each variable. This method was applied within each group of company codes to maintain consistency across firms. 
+
+After Winsorization, the dataset exhibited a noticeable reduction in NA values across several variables. For instance, missing values in profit margin decreased from 4,423 to 2,289, revenue from 879 to 179, and inventory turnover from 8,446 to 6,003. This approach preserved data integrity while mitigating the effects of extreme outliers, leading to a cleaner dataset for subsequent analysis. Afterwards, we decided to replace all NA values with zero to keep observations in the data analysis.
+
+# Part 1: Data Cleaning
+
+```{r, warning=F, message=F}
+library(dplyr)
+library(tidyverse)
+library(broom)
+library(readr)
+library(DescTools)
+library(alpaca)
+library(lubridate)
+library(yardstick)
+library(glmnet)
+library(coefplot)
+library(DT)
+library(recipes)
+library(xgboost)
+library(caret)
+library(parsnip)
+library(fixest)
+library(pROC)
+library(ranger)
+library(randomForest)
+```
+
+```{r, warning=F, message=F}
+normal <- read_csv("FFA_latest_dataset.csv")
+percentageChange <- read_csv("FFA_latest_dataset_pct_change.csv")
+```
+
+##Handling NA values - Nominal Data
+
+```{r}
+print(summary(normal)) # Check missing values
+
+winsorized_mean <- function(x, trim = 0.05) {
+  x <- x[!is.na(x)]  # Remove NAs to avoid issues
+  x_winsorized <- Winsorize(x)
+  return(mean(x_winsorized, na.rm = TRUE))
+}
+
+na_remove <- function(x, column_names) {
+  x <- x |> group_by(code) # Grouping once before mutate
+  for (column_name in column_names) {
+    x <- x |> 
+      mutate(!!sym(column_name) := ifelse(is.na(!!sym(column_name)), 
+                                          winsorized_mean(!!sym(column_name)), 
+                                          !!sym(column_name)))}
+  return(x)
+}
+
+exclude_cols <- c("code", "industry", "year_", "restatement_type", 
+                  "restatement_reason", "auditor_opinion")
+columns.isnumeric <- setdiff(names(normal)[sapply(normal, is.numeric)], exclude_cols)
+df_na_removed1 <- na_remove(normal, columns.isnumeric) 
+print(summary(df_na_removed1)) # After windsorising: result
+
+
+# # change to 0 if NA --> replace nan value manually
+df_na_removed1[] <- lapply(df_na_removed1, function(x) {
+  # if (x) {
+    x <- replace(x, is.na(x), 0)
+  # }
+  return(x)
+})
+
+df_na_removed1[] <- lapply(df_na_removed1, function(x) {
+  if (is.numeric(x)) {
+    x <- replace(x, is.infinite(x), 0)  # Replace Inf and -Inf with 0 in numeric columns
+  }
+  return(x)
+})
+```
+
+##Handling NA values - percentageChange
+
+```{r}
+winsorized_mean <- function(x, trim = 0.05) {
+  x <- x[!is.na(x)]  # Remove NAs to avoid issues
+  x_winsorized <- Winsorize(x)
+  return(mean(x_winsorized, na.rm = TRUE))
+}
+
+na_remove <- function(x, column_names) {
+  x <- x |> group_by(code) # Grouping once before mutate
+  for (column_name in column_names) {
+    x <- x |> 
+      mutate(!!sym(column_name) := ifelse(is.na(!!sym(column_name)), 
+                                          winsorized_mean(!!sym(column_name)), 
+                                          !!sym(column_name)))}
+  return(x)
+}
+
+exclude_cols <- c("code", "industry", "year_", "restatement_type", 
+                  "restatement_reason", "auditor_opinion")
+columns.isnumeric <- setdiff(names(percentageChange)[sapply(percentageChange, is.numeric)], exclude_cols)
+df_na_removed2 <- na_remove(percentageChange, columns.isnumeric) 
+summary(df_na_removed2) # After windsorising: result
+
+# # change to 0 if NA --> replace nan value manually
+df_na_removed2[] <- lapply(df_na_removed2, function(x) {
+  x <- replace(x, is.na(x), 0)
+  return(x)
+})
+
+df_na_removed2[] <- lapply(df_na_removed2, function(x) {
+  if (is.numeric(x)) {
+    x <- replace(x, is.infinite(x), 0)# Replace Inf and -Inf with 0 in numeric columns
+  }
+  return(x)
+})
+
+```
+
+# Building Models (With winsorised data)
+
+We divided our dataset into two time periods: dataA (2019-2022) for model development and dataB (2023) for final validation. This approach allows us to build and refine our model using several years of historical data, then test its real-world effectiveness on the most recent, completely unseen data. By using this forward-testing method rather than random sampling, we can confirm our model works reliably on new data and remains effective at detecting emerging fraud patterns which is precisely how it would need to perform in actual implementation. For dataA, we will be splitting it into 80% training and 20% testing.
+
+##  Debt-to-Equity Ratio Model
+
+Independent variables: profit_margin, inventory_turnover, z_score, industry, restated_later, overvaluation, revenue, property_plant_and_equipment, brands_patents_net, auditor_opinion, net_income_pctc, cash_flow_pctc, accounts_receivable_days_pctc, market_cap_pctc, revenue_pctc. 
+Dependent variable: Industry specific threshold is used to point out Debt-to-Equity ratio red flag. 
+
+```{r, warning=F, message=F}
+normal <- read_csv("normalCleaned.csv")
+percentageChange <- read_csv("percentageChangeCleaned.csv")
+```
+
+### Splitting into 2019-2022 data and 2023 data
+
+```{r}
+#1. remove first column
+#2. inner merge raw with %change with relevant data
+# change factor variables to factor
+#3. create y variables with measurements
+#4. select variables to run regression
+
+normal_selected <- normal %>% 
+  dplyr::select(code, year_, debt_to_equity, profit_margin, inventory_turnover, z_score, industry, restated_later, overvaluation, revenue, property_plant_and_equipment, brands_patents_net, auditor_opinion)
+
+percentageChange_selected <- percentageChange %>% 
+  dplyr::select(code, year_, net_income, cash_flow,
+         accounts_receivable_days, market_cap, revenue) %>% rename(net_income_pctc = net_income, cash_flow_pctc = cash_flow, accounts_receivable_days_pctc = accounts_receivable_days, market_cap_pctc = market_cap, revenue_pctc = revenue)
+
+# Merge datasets on code and year_
+healthcare_df <- inner_join(normal_selected, percentageChange_selected, by = c("code", "year_"))
+
+healthcare_df <- healthcare_df |> mutate(dte_flag = case_when(
+    # Flag as 1 if debt_to_equity < 0 (applies to all industries)
+    debt_to_equity < 0 ~ 1,
+    # Flag as 1 if debt_to_equity exceeds max by industry
+    industry == 3400 & debt_to_equity > 1.5 ~ 1,
+    industry == 3410 & debt_to_equity > 2.5 ~ 1,
+    industry == 3420 & debt_to_equity > 1.5 ~ 1,
+    industry == 3430 & debt_to_equity > 2.5 ~ 1,
+    industry == 3440 & debt_to_equity > 1.5 ~ 1,
+    industry == 7040 & debt_to_equity > 2.5 ~ 1,
+    industry == 8550 & debt_to_equity > 2.5 ~ 1,
+    TRUE ~ 0
+  ))|> mutate(dte_flagf = as.factor(dte_flag), overvaluation = as.factor(overvaluation), restated_later = as.factor(restated_later), wgt = ifelse(restated_later == 1, 10, 1), industry = as.factor(industry), auditor_opinion = as.factor(ifelse(auditor_opinion == 5, 1, 0))) |> dplyr::select(-debt_to_equity)
+
+# Replace Inf and -Inf values with 0 only for numeric columns
+healthcare_df[] <- lapply(healthcare_df, function(x) {
+  if (is.numeric(x)) {
+    x <- replace(x, is.infinite(x), 0)  # Replace Inf and -Inf with NA in numeric columns
+  }
+  return(x)
+})
+
+restated_healthcare_df <- healthcare_df
+
+# Split data into:
+# A: 2019 - 2022 (train and test model with A, pick the best model)
+# B: 2023 (use 2023 data to predict and flag out debt-to-equity red flags)
+dataA <- healthcare_df |> filter(year_ >= 2019 & year_ <= 2022)
+dataB <- healthcare_df |> filter(year_ == 2023)
+dataB <- dataB |> mutate(Test = 0)
+```
+
+### Splitting 2019-2022 data into train and test model
+
+```{r}
+set.seed(123)
+dataA$Test <- ifelse(runif(nrow(dataA)) < 0.8, 0, 1)
+```
+
+### 1. Simple Logistic Regression
+
+```{r, warning=F, message=F}
+logm1 <- glm(dte_flag ~.-wgt-Test-code-dte_flagf-year_, data=dataA[dataA$Test ==0, ], family=binomial, weights = wgt)
+summary(logm1)
+```
+
+Z-score (-6.385e-04, p < 2e-16): Companies with stronger financial health (higher Z-scores) are substantially less likely to have suspicious debt-to-equity ratios, confirming that financial distress is a primary driver of potential manipulation.
+
+Restated_later1 (5.316e-01, p < 2e-16): Companies that subsequently restated their financial statements have approximately 70% higher odds of suspicious debt-to-equity ratios, making this the strongest predictor of potential manipulation.
+
+Brands_patents_net (3.172e-11, p < 0.001): Higher intangible asset values slightly increase the likelihood of suspicious debt-to-equity ratios, suggesting companies may use intangible assets to obscure their true leverage position.
+
+Property_plant_and_equipment (2.398e-13, p = 0.00255): Companies with larger fixed asset bases show a slightly increased probability of suspicious debt-to-equity ratios, possibly indicating asset inflation to mask leverage concerns.
+
+Profit_margin (5.618e-06, p = 0.01995): Higher profit margins correlate with marginally increased likelihood of suspicious debt-to-equity ratios, potentially reflecting earnings manipulation to offset high leverage.
+
+Net_income_pctc (-9.529e-04, p = 0.00525): Companies with stronger year-over-year net income growth are less likely to display suspicious debt-to-equity ratios, suggesting stable profit growth reduces incentives for financial manipulation.
+
+#### Prediction logm1
+
+```{r, warning=F, message=F}
+dataA$pred_dteFlag1 <- predict(logm1, dataA, type="response")
+auc_train1 <- dataA %>% filter(Test==0) %>% roc_auc(dte_flagf, pred_dteFlag1, event_level='second')
+auc_test1 <- dataA %>% filter(Test==1) %>% roc_auc(dte_flagf, pred_dteFlag1, event_level='second')
+curve_train1 <- dataA %>% filter(Test==0) %>% roc_curve(dte_flagf, pred_dteFlag1, event_level='second')
+curve_test1 <- dataA %>% filter(Test==1) %>% roc_curve(dte_flagf, pred_dteFlag1, event_level='second')
+
+ggplot() +
+  geom_line(data=curve_train1, aes(y=sensitivity, x=1-specificity, color="In Sample")) + 
+  geom_line(data=curve_test1, aes(y=sensitivity, x=1-specificity, color="Out of Sample")) +
+  geom_abline(slope=1)
+
+aucs1 <- c(auc_train1$.estimate, auc_test1$.estimate)
+names(aucs1) <- c("In sample AUC", "Out of sample AUC")
+aucs1
+dataA <- dataA |> dplyr::select(-pred_dteFlag1)
+```
+
+#### Confusion Matrix
+
+```{r}
+log.prob <- predict(logm1, subset(dataA, Test == 1), type = "response")
+
+log.pred <- ifelse(log.prob > 0.5, 1, 0)
+
+actual_values <- subset(dataA, Test == 1)$dte_flag
+
+cm <- confusionMatrix(factor(log.pred, levels=c(0,1)), 
+                      factor(actual_values, levels=c(0,1)), 
+                      positive = "1")
+
+cm
+
+```
+
+## 2. Reg with Fixed Effects
+
+This regression helps to take into consideration company specific characteristics.
+
+```{r}
+logm2 <- fixest::feglm(dte_flag ~ profit_margin + 
+               inventory_turnover + z_score + industry + restated_later + 
+               overvaluation + revenue + property_plant_and_equipment + brands_patents_net + auditor_opinion + net_income_pctc + cash_flow_pctc + 
+               accounts_receivable_days_pctc + market_cap_pctc + revenue_pctc | code, 
+               data = dataA[dataA$Test == 0, ], 
+               family = binomial(link = 'logit'), 
+               weights = ~wgt)
+
+summary(logm2)
+
+```
+
+Profit_margin (3.229e-06, p=0.0049): Companies with higher profit margins show a small but significantly increased likelihood of suspicious debt-to-equity ratios, possibly indicating that high reported profitability may mask leverage concerns.
+
+Restated_later1 (7.259e-01, p=0.0442): Companies that subsequently restated their financial statements have approximately double the odds (e^0.726 ≈ 2.07) of suspicious debt-to-equity ratios, confirming that restatements are a key indicator of prior financial manipulation.
+
+Overvaluation1 (-1.005, p=0.0016): Surprisingly, overvalued companies are significantly less likely to exhibit suspicious debt-to-equity ratios, suggesting that market overvaluation may reduce the need for debt ratio manipulation.
+
+Property_plant_and_equipment (-2.170e-12, p=0.0154): Companies with larger fixed asset bases show a slightly decreased probability of suspicious debt-to-equity ratios, potentially indicating that tangible assets provide legitimate collateral that reduces the need to manipulate leverage metrics.
+
+### Prediction logm2
+
+```{r}
+dataA$pred_dteFlag2 <- predict(logm2, dataA, type="response")
+auc_train2 <- dataA %>% filter(Test==0) %>% roc_auc(dte_flagf, pred_dteFlag2, event_level='second')
+auc_test2 <- dataA %>% filter(Test==1) %>% roc_auc(dte_flagf, pred_dteFlag2, event_level='second')
+curve_train2 <- dataA %>% filter(Test==0) %>% roc_curve(dte_flagf, pred_dteFlag2, event_level='second')
+curve_test2 <- dataA %>% filter(Test==1) %>% roc_curve(dte_flagf, pred_dteFlag2, event_level='second')
+
+ggplot() +
+  geom_line(data=curve_train2, aes(y=sensitivity, x=1-specificity, color="In Sample")) + 
+  geom_line(data=curve_test2, aes(y=sensitivity, x=1-specificity, color="Out of Sample")) +
+  geom_abline(slope=1)
+
+aucs2 <- c(auc_train2$.estimate, auc_test2$.estimate)
+names(aucs2) <- c("In sample AUC", "Out of sample AUC")
+aucs2
+
+dataA <- dataA |> dplyr::select(-pred_dteFlag2)
+```
+
+### Confusion matrix
+
+```{r}
+log.prob <- predict(logm2, newdata = subset(dataA, Test == 1), type = "response", fixef.default = 0)
+
+log.pred <- ifelse(log.prob > 0.5, 1, 0)
+
+actual_values <- subset(dataA, Test == 1)$dte_flag
+
+cm <- confusionMatrix(factor(log.pred, levels=c(0,1)), 
+                      factor(actual_values, levels=c(0,1)), 
+                      positive = "1")
+
+cm
+```
+
+
+## 3. LASSO
+
+```{r}
+fraud_eq = as.formula(paste("dte_flag ~.-wgt-Test-code-dte_flagf-year_", collapse=""))
+train_data <- dataA[dataA$Test==0,]
+test_data <- dataA[dataA$Test==1,]
+
+x_train <- model.matrix(fraud_eq, data=train_data)[,-1]
+y_train <- model.frame(fraud_eq, data=train_data)[,"dte_flag"]
+fit_LASSO <- glmnet(x=x_train, y=y_train, family = "binomial", alpha = 1)
+cvfit = cv.glmnet(x=x_train, y=y_train, family = "binomial", alpha = 1, type.measure="auc")
+
+# Get the optimal lambda value
+best_lambda <- cvfit$lambda.min
+
+plot(cvfit)
+coef(cvfit, s = "lambda.min")
+coefplot::coefplot(cvfit,lambda='lambda.min',sort='magnitude')+ theme(axis.text.y = element_text(size=15))
+```
+
+The highest magnitude coefficient is restated_later1 (0.522), indicating companies that subsequently restated their financials have substantially higher odds of suspicious debt-to-equity ratios, making this the strongest warning sign.
+
+Z-score (-0.000334) shows a negative relationship, confirming that financially healthier companies are less likely to have suspicious debt metrics.
+
+Industry effects vary significantly, with industry3430 showing a strong negative association (-0.454) while industry3420 (0.271) and industry7040 (0.308) show positive associations, suggesting industry context matters considerably.
+
+Brands_patents_net (4.11e-11) maintains a small positive effect, indicating companies with more intangible assets may have slightly increased likelihood of suspicious leverage metrics.
+
+Overvaluation1 (-0.126) shows that overvalued companies are somewhat less likely to have suspicious debt ratios, possibly because market overvaluation reduces pressure to manipulate leverage metrics.
+
+### Plot Min Prediction and AUC
+
+```{r}
+# Create matrix for test data
+x_test <- model.matrix(fraud_eq, data=test_data)[,-1]
+y_test <- model.frame(fraud_eq, data=test_data)[,"dte_flag"]
+
+pred_train <- predict(cvfit, newx=x_train, s="lambda.min", type="response")
+pred_test <- predict(cvfit, newx=x_test, s="lambda.min", type="response")
+
+roc_train <- roc(y_train, pred_train)
+auc_train <- auc(roc_train)
+print(paste("In-sample AUC:", round(auc_train, 4)))
+
+# Calculate AUC for out-of-sample (test) data
+roc_test <- roc(y_test, pred_test)
+auc_test <- auc(roc_test)
+print(paste("Out-of-sample AUC:", round(auc_test, 4)))
+
+# Plot ROC curves
+plot(roc_train, col="blue", main="ROC Curves", lwd=2)
+lines(roc_test, col="red", lwd=2)
+legend("bottomright", legend=c(paste("Training (AUC =", round(auc_train, 4), ")"), 
+                              paste("Test (AUC =", round(auc_test, 4), ")")),
+       col=c("blue", "red"), lwd=2)
+```
+
+#### Prediction Performance
+
+The in-sample AUC is 62.74% and out-sample AUC is 64.55%. After fitting test data into a confusion matrix, we found that precision is 71.98%, recall/sensitivity is around 99.83% and specificity is 2.49%.
+
+### Confusion matrix
+
+```{r}
+log.prob <- predict(cvfit, newx=x_test, s="lambda.min", type="response")
+
+log.pred <- ifelse(log.prob > 0.5, 1, 0)
+
+actual_values <- y_test
+
+cm <- confusionMatrix(factor(log.pred, levels=c(0,1)), 
+                      factor(actual_values, levels=c(0,1)), 
+                      positive = "1")
+
+cm
+```
+
+## Random Forest
+
+```{r}
+train_data <- dataA[dataA$Test == 0, ]
+test_data <- dataA[dataA$Test == 1, ]
+
+
+fraud_eq <- as.formula(paste("dte_flagf ~.-wgt-Test-code-dte_flag-year_", collapse=""))
+
+rf_model <- randomForest(
+  formula = fraud_eq,
+  data = train_data,
+  ntree = 100,
+  mtry = sqrt(ncol(train_data)-4), 
+  importance = TRUE,
+  proximity = FALSE,
+  na.action = na.omit
+)
+
+# Print model summary
+print(rf_model)
+
+# Get variable importance
+varImpPlot(rf_model, sort = TRUE,
+           main = "Random Forest Variable Importance")
+randomForest::importance(rf_model)
+```
+
+### Prediction rfmodel
+
+```{r}
+# Get predictions for both training and test sets
+# For ROC, we need probability predictions
+pred_train_prob <- rf_model$votes[, 2]  # Probability of positive class
+pred_test_prob <- predict(rf_model, test_data, type = "prob")[, 2]
+
+# Calculate AUC for in-sample (training) data
+roc_train <- roc(response = train_data$dte_flag, predictor = pred_train_prob)
+auc_train <- auc(roc_train)
+print(paste("In-sample (Training) AUC:", round(auc_train, 4)))
+
+# Calculate AUC for out-of-sample (test) data
+roc_test <- roc(response = test_data$dte_flag, predictor = pred_test_prob)
+auc_test <- auc(roc_test)
+print(paste("Out-of-sample (Test) AUC:", round(auc_test, 4)))
+
+# Create classification metrics for both sets
+# For training
+pred_train_class <- predict(rf_model, train_data, type = "class")
+cm_train <- confusionMatrix(pred_train_class, train_data$dte_flagf)
+print("Training Set Performance:")
+print(cm_train)
+
+# For test
+pred_test_class <- predict(rf_model, test_data, type = "class")
+cm_test <- confusionMatrix(pred_test_class, test_data$dte_flagf)
+print("Test Set Performance:")
+print(cm_test)
+
+# Plot ROC curves
+plot(roc_train, col = "blue", main = "ROC Curves for Random Forest", lwd = 2)
+lines(roc_test, col = "red", lwd = 2)
+legend("bottomright", 
+       legend = c(paste("Training (AUC =", round(auc_train, 4), ")"),
+                 paste("Test (AUC =", round(auc_test, 4), ")")),
+       col = c("blue", "red"), lwd = 2)
+
+```
+
+Z-score is by far the most crucial predictor, with the highest values for both accuracy decrease (71.18) and Gini decrease (2063.72), indicating that financial health is the dominant factor in predicting suspicious leverage metrics.
+
+Revenue shows strong importance (MeanDecreaseAccuracy 26.17), particularly for identifying suspicious cases (class 1 accuracy 22.01), suggesting that revenue characteristics significantly help detect problematic debt ratios.
+
+Market_cap_pctc demonstrates a stark contrast between classes (1.68 for class 0 vs 20.62 for class 1), revealing it's particularly important for identifying suspicious cases but less relevant for confirming normal ones.
+
+Property_plant_and_equipment shows consistent importance across measures (MeanDecreaseAccuracy 22.89), indicating fixed assets provide reliable signals about debt ratio legitimacy.
+
+Overvaluation shows asymmetric importance (7.68 for class 0 vs 20.09 for class 1), suggesting it's much more useful for identifying suspicious cases than confirming legitimate ones.
+
+Industry demonstrates moderate importance (MeanDecreaseAccuracy 20.49) while having relatively lower Gini decrease (160.81), indicating it provides context-specific information that helps prediction but with less discrimination power than financial metrics.
+
+Prediction Performance
+The in-sample AUC is 94.08% and out-sample AUC is 94.72%. After fitting test data into a confusion matrix, we found that precision is 84.67%, recall/sensitivity is around 80.19% and specificity is 94.21%.
+
+## XGBoost
+
+```{r}
+params <- list(max_depth=10,
+               eta=0.2,
+               gamma=10,
+               min_child_weight = 5,
+               objective =
+                 "binary:logistic") # we didn't need to convert to factor because it's done here
+
+# run the model
+xgbCV <- xgb.cv(params=params,
+                data=x_train, # x data
+                label=y_train, # y data
+                nrounds=1, # cut down to one to prevent overfitting
+                eval_metric="auc",
+                nfold=10, # cross validation
+                stratified=TRUE) # stratified sampling
+
+numTrees <- min(
+ which(
+  xgbCV$evaluation_log$test_auc_mean == 
+  max(xgbCV$evaluation_log$test_auc_mean)
+ )
+)
+
+fit_optxgb <- xgboost(params=params,
+                data = x_train,
+                label = y_train,
+                nrounds = numTrees,
+                eval_metric="auc")
+```
+
+### Importance plot fit_optxgb
+
+```{r}
+xgb.train.data = xgb.DMatrix(x_train, label = y_train, missing = NA)
+col_names = attr(xgb.train.data, ".Dimnames")[[2]]
+imp = xgb.importance(col_names, fit_optxgb)
+# Variable importance
+xgb.plot.importance(imp)
+```
+
+Z-score dominates the model with dramatically higher importance (around 0.6) than any other feature, confirming that financial distress risk is the single most powerful predictor of suspicious debt ratio reporting.
+
+Three financial market indicators form a secondary tier of importance: market capitalization percentage change, overvaluation, and inventory turnover (all with importance values between 0.05-0.10), suggesting that market perceptions and operational efficiency provide valuable signals.
+
+Asset-related variables (property/plant/equipment and revenue) form a third tier of modest importance, indicating that asset composition contributes to prediction but with less impact than financial health metrics.
+
+Most industry classifications and operational metrics (like accounts receivable days) show minimal importance, suggesting sector-specific factors play only a minor role compared to universal financial indicators.
+
+### Get out of sample error - fit_optxgb
+
+```{r}
+pred.xgb <- c(predict(fit_optxgb, x_test, type="response"))
+df_test <- data.frame(pred.xgb=pred.xgb, dte_flag=factor(y_test, levels=c(0,1)))
+
+pred.xgb <- c(predict(fit_optxgb, x_train, type="response"))
+df_train <- data.frame(pred.xgb=pred.xgb, dte_flag=factor(y_train, levels=c(0,1)))
+
+auc_in_xgb <- df_train %>% roc_auc(dte_flag, pred.xgb, event_level='second')
+auc_out_xgb <- df_test %>% roc_auc(dte_flag, pred.xgb, event_level='second')
+curve_in_xgb <- df_train %>% roc_curve(dte_flag, pred.xgb, event_level='second')
+curve_out_xgb <- df_test %>% roc_curve(dte_flag, pred.xgb, event_level='second')
+
+aucs_xgb <- c(auc_in_xgb$.estimate, auc_out_xgb$.estimate)
+names(aucs_xgb) <- c("In sample, XGBoost", "Out of sample, XGBoost")
+aucs_xgb
+ggplot() +
+  geom_line(data=curve_in_xgb, aes(y=sensitivity, x=1-specificity, color="In-Sample XGBoost")) + 
+  geom_line(data=curve_out_xgb, aes(y=sensitivity, x=1-specificity, color="Out-Sample XGBoost"))
+  geom_abline(slope=1)
+```
+
+## XGBoost Confusion matrix
+
+```{r}
+preds_prob <- predict(fit_optxgb, x_test)
+preds_class <- as.numeric(preds_prob > 0.5)  # Using 0.5 as threshold, adjust as needed
+cm <- confusionMatrix(factor(preds_class), factor(y_test), positive = "1")
+cm
+```
+
+Prediction Performance
+The in-sample AUC is 93.19% and out-sample AUC is 92.92%. After fitting test data into a confusion matrix, we found that precision is 92.47%, recall/sensitivity is around 93.34% and specificity is 80.91%.
+
+## Prediction with logistic regression for Debt_to_Equity with dataB
+
+```{r}
+predicted_probs1 <- predict(logm1, newdata = dataB, type = "response")
+
+# Get logical vector where predicted class is 1 (i.e., probability > 0.5)
+predicted_class_1 <- predicted_probs1 > 0.5
+
+# Subset the original dataset to only those predicted as 1
+predicted_positive_df1 <- dataB[predicted_class_1, ]
+
+n_distinct(predicted_positive_df1$code)
+```
+
+## Prediction with rfmodel for Debt_to_Equity with dataB
+
+```{r}
+predicted_probs2 <- predict(rf_model, newdata = dataB, type = "prob")
+
+# Extract probabilities for class '1'
+predicted_class1_probs2 <- predicted_probs2[, "1"]
+
+# Apply threshold (e.g., > 0.5)
+predicted_class_2 <- predicted_class1_probs2 > 0.5
+
+# Filter original dataset
+predicted_positive_df2 <- dataB[predicted_class_2, ]
+
+# Count distinct codes
+n_distinct(predicted_positive_df2$code)
+```
+
+## Prediction with XGBoost for Debt_to_Equity with dataB - Selected
+
+```{r}
+x_test <- model.matrix(fraud_eq, data=dataB)[,-1]
+pred.xgb <- predict(fit_optxgb, x_test, type="response")
+
+# Create the final dataframe with just code and prediction flag
+predicted_positive_dte <- data.frame(
+  code = dataB$code,
+  pred_dte = ifelse(pred.xgb > 0.5, 1, 0)
+)
+```
+
+## Current Ratio
+
+Independent variables: profit_margin, inventory_turnover, z_score, industry, restated_later, overvaluation, property_plant_and_equipment, brands_patents_net, auditor_opinion, net_income_pctc, cash_flow_pctc, total_debt_pctc, accounts_receivable_days_pctc, market_cap_pctc, revenue_pctc
+
+Dependent variable: Industry specific threshold is used to point out Current Ratio red flag. 
+
+### Splitting into 2019-2022 data and 2023 data
+
+```{r}
+#1. remove first column
+#2. inner merge raw with %change with relevant data
+# change factor variables to factor
+#3. create y variables with measurements
+#4. select variables to run regression
+
+normal_selected <- normal %>% 
+  dplyr::select(code, year_, profit_margin, inventory_turnover, z_score, industry, current_ratio, restated_later, overvaluation, property_plant_and_equipment, brands_patents_net, auditor_opinion)
+
+percentageChange_selected <- percentageChange %>% 
+  dplyr::select(code, year_, net_income, cash_flow, total_debt, 
+         accounts_receivable_days, market_cap, revenue) %>% rename(net_income_pctc = net_income, cash_flow_pctc = cash_flow, total_debt_pctc = total_debt, accounts_receivable_days_pctc = accounts_receivable_days, market_cap_pctc = market_cap, revenue_pctc = revenue)
+
+# Merge datasets on code and year_
+healthcare_df <- inner_join(normal_selected, percentageChange_selected, by = c("code", "year_"))
+
+healthcare_df <- healthcare_df |> mutate(current_ratio_flag = case_when(
+    # Flag as 1 if current_ratio < 0 (applies to all industries)
+    current_ratio < 0 ~ 1,
+    # Flag as 1 if current_ratio exceeds max by industry
+    industry == 3400 & (current_ratio < 1.3 | current_ratio > 2.5) ~ 1,  # Drugs, Cosmetics, and Healthcare
+    industry == 3410 & (current_ratio < 1.3 | current_ratio > 2.5) ~ 1,  # Diversified
+    industry == 3420 & (current_ratio < 1.2 | current_ratio > 2.0) ~ 1,  # Cosmetics & Toiletries
+    industry == 3430 & (current_ratio < 1.5 | current_ratio > 3.0) ~ 1,  # Ethical Drug Manufacturers
+    industry == 3440 & (current_ratio < 1.5 | current_ratio > 2.5) ~ 1,  # Medical, Surgical & Dental Suppliers
+    industry == 7040 & (current_ratio < 1.0 | current_ratio > 1.8) ~ 1,  # Drug Store Chains
+    industry == 8550 & (current_ratio < 1.2 | current_ratio > 2.0) ~ 1,
+    
+    # Default to 0 for all other cases
+    TRUE ~ 0
+  )) |> mutate(current_ratio_flagf = as.factor(current_ratio_flag), overvaluation = as.factor(overvaluation), restated_later = as.factor(restated_later), wgt = ifelse(restated_later == 1, 10, 1), industry = as.factor(industry), auditor_opinion = as.factor(ifelse(auditor_opinion == 5, 1, 0))) |> dplyr::select(-current_ratio)
+
+# Replace Inf and -Inf values with 0 only for numeric columns
+healthcare_df[] <- lapply(healthcare_df, function(x) {
+  if (is.numeric(x)) {
+    x <- replace(x, is.infinite(x), 0)  # Replace Inf and -Inf with NA in numeric columns
+  }
+  return(x)
+})
+
+# Split data into:
+# A: 2019 - 2022 (train and test model with A, pick the best model)
+# B: 2023 (use 2023 data to predict and flag out debt-to-equity red flags)
+dataA <- healthcare_df |> filter(year_ >= 2019 & year_ <= 2022)
+dataB <- healthcare_df |> filter(year_ == 2023)
+dataB <- dataB |> mutate(Test = 0)
+```
+
+### Splitting into 2019-2022 data into train and test
+
+```{r}
+set.seed(123)
+dataA$Test <- ifelse(runif(nrow(dataA)) < 0.8, 0, 1)
+```
+
+## Simple Logistic Regression
+
+```{r}
+logm1 <- glm(current_ratio_flag ~.-wgt-Test-code-current_ratio_flagf-year_, data=dataA[dataA$Test == 0,], family=binomial, weights = wgt)
+summary(logm1)
+```
+
+### Prediction logm1
+
+```{r}
+dataA$pred_dteFlag1 <- predict(logm1, dataA, type="response")
+auc_train1 <- dataA %>% filter(Test==0) %>% roc_auc(current_ratio_flagf, pred_dteFlag1, event_level='second')
+auc_test1 <- dataA %>% filter(Test==1) %>% roc_auc(current_ratio_flagf, pred_dteFlag1, event_level='second')
+curve_train1 <- dataA %>% filter(Test==0) %>% roc_curve(current_ratio_flagf, pred_dteFlag1, event_level='second')
+curve_test1 <- dataA %>% filter(Test==1) %>% roc_curve(current_ratio_flagf, pred_dteFlag1, event_level='second')
+
+ggplot() +
+  geom_line(data=curve_train1, aes(y=sensitivity, x=1-specificity, color="In Sample")) + 
+  geom_line(data=curve_test1, aes(y=sensitivity, x=1-specificity, color="Out of Sample")) +
+  geom_abline(slope=1)
+
+aucs1 <- c(auc_train1$.estimate, auc_test1$.estimate)
+names(aucs1) <- c("In sample AUC", "Out of sample AUC")
+aucs1
+dataA <- dataA |> dplyr::select(-pred_dteFlag1)
+```
+
+Profit margin (-6.498e-05, p < 0.001): Lower profit margins significantly increase the likelihood of current ratio red flags, suggesting companies with weaker profitability struggle to maintain adequate short-term liquidity.
+
+Industry 3440 (7.250e-01, p < 0.001): Companies in industry 3440 have a substantially higher likelihood of experiencing current ratio problems, indicating this sector may face distinct liquidity challenges.
+
+Industry 7040 (-5.076e-01, p < 0.01): Companies in industry 7040 have significantly lower likelihood of current ratio red flags, suggesting this sector typically maintains stronger short-term liquidity positions.
+
+Industry 8550 (5.014e-01, p < 0.01): Companies in industry 8550 face significantly higher risk of current ratio red flags, indicating structural liquidity challenges within this industry.
+
+Restated later (-3.284e-01, p < 0.001): Companies that later restate their financial statements initially show fewer current ratio red flags, potentially indicating manipulation of financial reports to mask liquidity problems.
+
+Overvaluation (1.546e-01, p < 0.001): Overvalued companies have higher likelihood of current ratio problems, suggesting market overvaluation may coincide with deteriorating fundamental liquidity positions.
+
+Auditor opinion (6.203e-01, p < 0.001): Qualified or adverse auditor opinions strongly predict current ratio red flags, demonstrating that auditors effectively identify companies with problematic liquidity positions.
+
+Cash flow percentage change (-1.248e-04, p < 0.01): Declining cash flows significantly increase the risk of current ratio problems, highlighting the critical role of cash generation in maintaining short-term financial health.
+
+Accounts receivable days percentage change (2.128e-02, p < 0.001): Increasing collection periods strongly predict liquidity issues, indicating that elongating payment cycles from customers is a key warning sign of deteriorating financial health.
+
+### Confusion Matrix
+
+```{r}
+log.prob <- predict(logm1, subset(dataA, Test == 1), type = "response")
+
+log.pred <- ifelse(log.prob > 0.5, 1, 0)
+
+actual_values <- subset(dataA, Test == 1)$current_ratio_flag
+
+cm <- confusionMatrix(factor(log.pred, levels=c(0,1)), 
+                      factor(actual_values, levels=c(0,1)), 
+                      positive = "1")
+
+cm
+
+```
+
+Prediction Performance
+The in-sample AUC is 57.57% and out-sample AUC is 58.13%. After fitting test data into a confusion matrix, we found that precision 75.96%, recall/sensitivity is around 99.88% and specificity is around 0.2%.
+
+## Reg with Fixed Effects
+
+```{r}
+logm2 <- fixest::feglm(current_ratio_flag ~ profit_margin + 
+               inventory_turnover + z_score + industry + restated_later + 
+               overvaluation + property_plant_and_equipment + net_income_pctc + cash_flow_pctc + brands_patents_net + auditor_opinion +
+               accounts_receivable_days_pctc + market_cap_pctc + revenue_pctc | code, 
+               data = dataA[dataA$Test == 0, ], 
+               family = binomial(link = 'logit'), 
+               weights = ~wgt)
+summary(logm2)
+```
+
+### Prediction logm2
+
+```{r}
+dataA$pred_dteFlag2 <- predict(logm2, dataA, type="response")
+auc_train2 <- dataA %>% filter(Test==0) %>% roc_auc(current_ratio_flagf, pred_dteFlag2, event_level='second')
+auc_test2 <- dataA %>% filter(Test==1) %>% roc_auc(current_ratio_flagf, pred_dteFlag2, event_level='second')
+curve_train2 <- dataA %>% filter(Test==0) %>% roc_curve(current_ratio_flagf, pred_dteFlag2, event_level='second')
+curve_test2 <- dataA %>% filter(Test==1) %>% roc_curve(current_ratio_flagf, pred_dteFlag2, event_level='second')
+
+ggplot() +
+  geom_line(data=curve_train2, aes(y=sensitivity, x=1-specificity, color="In Sample")) + 
+  geom_line(data=curve_test2, aes(y=sensitivity, x=1-specificity, color="Out of Sample")) +
+  geom_abline(slope=1)
+
+aucs2 <- c(auc_train2$.estimate, auc_test2$.estimate)
+names(aucs2) <- c("In sample AUC", "Out of sample AUC")
+aucs2
+
+dataA <- dataA |> dplyr::select(-pred_dteFlag2)
+```
+
+Inventory turnover (-1.481941e-04, p < 0.001): Higher inventory turnover significantly decreases the likelihood of current ratio red flags, suggesting companies that efficiently manage inventory have stronger short-term liquidity positions.
+
+Accounts receivable days percentage change (1.167220e-02, p < 0.05): Increasing collection periods significantly predict liquidity issues, indicating that lengthening customer payment cycles serves as an early warning sign of deteriorating financial health.
+
+The other variables in this fixed effects model aren't statistically significant, which differs notably from the previous model. This suggests that when controlling for fixed effects (likely company-specific or time-specific factors), only inventory management and accounts receivable trends remain significant predictors of current ratio problems.
+
+The loss of significance for variables like profit margin, industry codes, and auditor opinions indicates these factors may be correlated with the fixed effects being controlled for in this model, or their influence is less direct when accounting for unobserved heterogeneity across entities.
+
+### Confusion matrix
+
+```{r}
+log.prob <- predict(logm2, newdata = subset(dataA, Test == 1), type = "response", fixef.default = 0)
+
+log.pred <- ifelse(log.prob > 0.5, 1, 0)
+
+actual_values <- subset(dataA, Test == 1)$current_ratio_flag
+
+cm <- confusionMatrix(factor(log.pred, levels=c(0,1)), 
+                      factor(actual_values, levels=c(0,1)), 
+                      positive = "1")
+
+cm
+```
+
+Prediction Performance
+The in-sample AUC is 63.73% and out-sample AUC is 54.18%. After fitting test data into a confusion matrix, we found that precision is 66.96%, recall/sensitivity is around 57.68% and specificity is 49.83%.
+
+## LASSO
+
+```{r}
+fraud_eq = as.formula(paste("current_ratio_flag ~.-wgt-Test-code-current_ratio_flagf-year_", collapse=""))
+train_data <- dataA[dataA$Test==0,]
+test_data <- dataA[dataA$Test==1,]
+
+x_train <- model.matrix(fraud_eq, data=train_data)[,-1]
+y_train <- model.frame(fraud_eq, data=train_data)[,"current_ratio_flag"]
+fit_LASSO <- glmnet(x=x_train, y=y_train, family = "binomial", alpha = 1)
+cvfit = cv.glmnet(x=x_train, y=y_train, family = "binomial", alpha = 1, type.measure="auc")
+
+# Get the optimal lambda value
+best_lambda <- cvfit$lambda.min
+
+plot(cvfit)
+coef(cvfit, s = "lambda.min")
+coefplot::coefplot(cvfit,lambda='lambda.min',sort='magnitude')+ theme(axis.text.y = element_text(size=15))
+```
+
+Profit margin (-1.753865e-05): Companies with lower profit margins face increased likelihood of current ratio red flags, indicating profitability directly impacts short-term liquidity health.
+
+Industry 3440 (3.620956e-01): Companies in this industry have substantially higher likelihood of experiencing current ratio problems compared to the reference industry.
+
+Industry 7040 (-1.055710e+00): Companies in this industry show dramatically lower likelihood of current ratio red flags, suggesting structural advantages in maintaining liquidity.
+
+Industry 8550 (2.313433e-01): Companies in this industry face higher risk of current ratio issues, indicating industry-specific liquidity challenges.
+
+Restated later (-3.277399e-01): Companies that later restate financials show fewer initial current ratio red flags, potentially indicating financial manipulation to hide liquidity issues.
+
+Overvaluation (1.351323e-01): Overvalued companies have higher likelihood of current ratio problems, suggesting market overvaluation may coincide with deteriorating fundamentals.
+
+Auditor opinion (5.933777e-01): Qualified or adverse auditor opinions strongly predict current ratio red flags, confirming auditors effectively identify problematic liquidity positions.
+
+Cash flow percentage change (-6.991107e-05): Declining cash flows increase the risk of current ratio issues, highlighting the importance of cash generation for short-term financial health.
+
+Accounts receivable days percentage change (5.624639e-03): Increasing collection periods predict liquidity problems, showing that lengthening payment cycles from customers signal deteriorating financial health.
+
+Market cap percentage change (-1.143297e-03): Declining market capitalization correlates with increased likelihood of current ratio problems, suggesting market participants recognize liquidity deterioration.
+
+Revenue percentage change (2.583717e-03): Rising revenue correlates with increased likelihood of current ratio problems, possibly indicating growth without proper working capital management.
+
+### Plot Min prediction and AUC
+
+```{r}
+# Create matrix for test data
+x_test <- model.matrix(fraud_eq, data=test_data)[,-1]
+y_test <- model.frame(fraud_eq, data=test_data)[,"current_ratio_flag"]
+
+pred_train <- predict(cvfit, newx=x_train, s="lambda.min", type="response")
+pred_test <- predict(cvfit, newx=x_test, s="lambda.min", type="response")
+
+roc_train <- roc(y_train, pred_train)
+auc_train <- auc(roc_train)
+print(paste("In-sample AUC:", round(auc_train, 4)))
+
+# Calculate AUC for out-of-sample (test) data
+roc_test <- roc(y_test, pred_test)
+auc_test <- auc(roc_test)
+print(paste("Out-of-sample AUC:", round(auc_test, 4)))
+
+# Plot ROC curves
+plot(roc_train, col="blue", main="ROC Curves", lwd=2)
+lines(roc_test, col="red", lwd=2)
+legend("bottomright", legend=c(paste("Training (AUC =", round(auc_train, 4), ")"), 
+                              paste("Test (AUC =", round(auc_test, 4), ")")),
+       col=c("blue", "red"), lwd=2)
+```
+
+### Confusion matrix
+
+```{r}
+log.prob <- predict(cvfit, newx=x_test, s="lambda.min", type="response")
+
+log.pred <- ifelse(log.prob > 0.5, 1, 0)
+
+actual_values <- y_test
+
+cm <- confusionMatrix(factor(log.pred, levels=c(0,1)), 
+                      factor(actual_values, levels=c(0,1)), 
+                      positive = "1")
+
+cm
+```
+
+Prediction Performance
+The in-sample AUC is 57.91% and out-sample AUC is 58.5%. After fitting test data into a confusion matrix, we found that precision is 76.2%, recall/sensitivity is around 99.37% and specificity is around 2%.
+
+## Random Forest
+
+```{r}
+train_data <- dataA[dataA$Test == 0, ]
+test_data <- dataA[dataA$Test == 1, ]
+
+
+fraud_eq <- as.formula(paste("current_ratio_flagf ~.-wgt-Test-code-current_ratio_flag-year_", collapse=""))
+
+rf_model <- randomForest(
+  formula = fraud_eq,
+  data = train_data,
+  ntree = 100,
+  mtry = sqrt(ncol(train_data)-4), 
+  importance = TRUE,
+  proximity = FALSE,
+  na.action = na.omit
+)
+
+# Print model summary
+print(rf_model)
+
+# Get variable importance
+varImpPlot(rf_model, sort = TRUE,
+           main = "Random Forest Variable Importance")
+
+randomForest::importance(rf_model)
+```
+
+### Prediction
+
+```{r}
+# Get predictions for both training and test sets
+# For ROC, we need probability predictions
+pred_train_prob <- rf_model$votes[, 2]  # Probability of positive class
+pred_test_prob <- predict(rf_model, test_data, type = "prob")[, 2]
+
+# Calculate AUC for in-sample (training) data
+roc_train <- roc(response = train_data$current_ratio_flag, predictor = pred_train_prob)
+auc_train <- auc(roc_train)
+print(paste("In-sample (Training) AUC:", round(auc_train, 4)))
+
+# Calculate AUC for out-of-sample (test) data
+roc_test <- roc(response = test_data$current_ratio_flag, predictor = pred_test_prob)
+auc_test <- auc(roc_test)
+print(paste("Out-of-sample (Test) AUC:", round(auc_test, 4)))
+
+# Create classification metrics for both sets
+# For training
+pred_train_class <- predict(rf_model, train_data, type = "class")
+cm_train <- confusionMatrix(pred_train_class, train_data$current_ratio_flagf)
+print("Training Set Performance:")
+print(cm_train)
+
+# For test
+pred_test_class <- predict(rf_model, test_data, type = "class")
+cm_test <- confusionMatrix(pred_test_class, test_data$current_ratio_flagf)
+print("Test Set Performance:")
+print(cm_test)
+
+# Plot ROC curves
+plot(roc_train, col = "blue", main = "ROC Curves for Random Forest", lwd = 2)
+lines(roc_test, col = "red", lwd = 2)
+legend("bottomright", 
+       legend = c(paste("Training (AUC =", round(auc_train, 4), ")"),
+                 paste("Test (AUC =", round(auc_test, 4), ")")),
+       col = c("blue", "red"), lwd = 2)
+
+```
+
+Property, plant, and equipment: Fixed assets emerge as the most important predictor in both measurements, suggesting a company's investment in physical assets strongly influences its liquidity position, likely because these assets tie up capital that could otherwise support short-term obligations.
+
+Z-score: This composite financial health metric ranks second in importance, indicating that overall financial distress strongly correlates with current ratio problems.
+
+Inventory turnover: High importance suggests efficient inventory management critically impacts a company's ability to maintain adequate liquidity.
+
+Brands/patents (intangible assets) and profit margin: These variables round out the top five predictors, indicating both intangible asset values and profitability significantly impact liquidity risk.
+
+The model finds structural factors (fixed assets, industry) and operational metrics (inventory turnover, profit margin) more predictive than financial reporting factors (restatements, auditor opinions), which ranked lowest. This suggests physical asset management and operational efficiency are more fundamental to predicting liquidity issues than accounting indicators or market perceptions.
+
+## XGBoost
+
+```{r}
+params <- list(max_depth=10,
+               eta=0.2,
+               gamma=10,
+               min_child_weight = 5,
+               objective =
+                 "binary:logistic")
+
+# run the model
+xgbCV <- xgb.cv(params=params,
+                data=x_train, # x data
+                label=y_train, # y data
+                nrounds=100, # how many times to run
+                eval_metric="auc",
+                nfold=10, # cross validation
+                stratified=TRUE) # stratified sampling
+
+numTrees <- min(
+ which(
+  xgbCV$evaluation_log$test_auc_mean == 
+  max(xgbCV$evaluation_log$test_auc_mean)
+ )
+)
+
+fit_optxgb <- xgboost(params=params,
+                data = x_train,
+                label = y_train,
+                nrounds = numTrees,
+                eval_metric="auc")
+```
+
+### Importance plot
+
+```{r}
+xgb.train.data = xgb.DMatrix(x_train, label = y_train, missing = NA)
+col_names = attr(xgb.train.data, ".Dimnames")[[2]]
+imp = xgb.importance(col_names, fit_optxgb)
+# Variable importance
+xgb.plot.importance(imp)
+```
+
+Z-score (≈0.30): Significantly outranks all other variables, indicating overall financial health is the strongest predictor of liquidity issues, with companies having lower Z-scores (higher financial distress) more likely to experience current ratio problems.
+
+Inventory turnover (≈0.15): Ranks second, confirming that inventory management efficiency strongly impacts a company's liquidity position, with inefficient inventory management signaling potential current ratio issues.
+
+Property, plant, and equipment (≈0.11): Third most important predictor, suggesting companies with disproportionate capital tied up in fixed assets may face liquidity challenges.
+
+Profit margin (≈0.10): Fourth most influential, indicating profitability directly affects a company's ability to maintain adequate short-term liquidity.
+
+Revenue percentage change (≈0.05): Companies with rapidly changing revenue may face challenges in managing working capital appropriately.
+
+The results show financial health metrics (Z-score) and operational efficiency indicators (inventory turnover, profit margin) outweigh accounting indicators (restatements) and industry factors in predicting liquidity problems. This differs somewhat from the earlier models where auditor opinions and financial restatements showed higher significance, suggesting XGBoost identifies more fundamental financial patterns while being less sensitive to potential manipulation indicators.
+
+### Get out of sample error
+
+```{r}
+pred.xgb <- c(predict(fit_optxgb, x_test, type="response"))
+df_test <- data.frame(pred.xgb=pred.xgb, current_ratio_flag=factor(y_test, levels=c(0,1)))
+
+pred.xgb <- c(predict(fit_optxgb, x_train, type="response"))
+df_train <- data.frame(pred.xgb=pred.xgb, current_ratio_flag=factor(y_train, levels=c(0,1)))
+
+auc_in_xgb <- df_train %>% roc_auc(current_ratio_flag, pred.xgb, event_level='second')
+auc_out_xgb <- df_test %>% roc_auc(current_ratio_flag, pred.xgb, event_level='second')
+curve_in_xgb <- df_train %>% roc_curve(current_ratio_flag, pred.xgb, event_level='second')
+curve_out_xgb <- df_test %>% roc_curve(current_ratio_flag, pred.xgb, event_level='second')
+
+aucs_xgb <- c(auc_in_xgb$.estimate, auc_out_xgb$.estimate)
+names(aucs_xgb) <- c("In sample, XGBoost", "Out of sample, XGBoost")
+aucs_xgb
+ggplot() +
+  geom_line(data=curve_in_xgb, aes(y=sensitivity, x=1-specificity, color="In-Sample XGBoost")) + 
+  geom_line(data=curve_out_xgb, aes(y=sensitivity, x=1-specificity, color="Out-Sample XGBoost"))
+  geom_abline(slope=1)
+```
+
+## XGBoost Confusion matrix
+
+```{r}
+preds_prob <- predict(fit_optxgb, x_test)
+preds_class <- as.numeric(preds_prob > 0.5)  # Using 0.5 as threshold, adjust as needed
+cm <- confusionMatrix(factor(preds_class), factor(y_test), positive = "1")
+cm
+```
+
+The in-sample AUC is 79.15% and out-sample AUC is 72.53%. After fitting test data into a confusion matrix, we found that precision is 77.42%, recall/sensitivity is around 97.04% and specificity is 10.69%.
+
+## Prediction with logistic regression for Current_ratio with dataB
+
+```{r}
+predicted_probs1 <- predict(logm1, newdata = dataB, type = "response")
+
+# Get logical vector where predicted class is 1 (i.e., probability > 0.5)
+predicted_class_1 <- predicted_probs1 > 0.5
+
+# Subset the original dataset to only those predicted as 1
+predicted_positive_df1 <- dataB[predicted_class_1, ]
+
+n_distinct(predicted_positive_df1$code)
+```
+
+## Prediction with rfmodel for Current_ratio with dataB
+
+```{r}
+predicted_probs2 <- predict(rf_model, newdata = dataB, type = "prob")
+
+# Extract probabilities for class '1'
+predicted_class1_probs2 <- predicted_probs2[, "1"]
+
+# Apply threshold (e.g., > 0.5)
+predicted_class_2 <- predicted_class1_probs2 > 0.5
+
+# Filter original dataset
+predicted_positive_df2 <- dataB[predicted_class_2, ]
+
+# Count distinct codes
+n_distinct(predicted_positive_df2$code)
+
+```
+
+## Prediction with XGBoost for Current_ratio with dataB - Selected
+
+```{r}
+# pick XGBoost over rfmodel because rfmodel is too optimistic, with out sample auc better than in sample auc.
+x_test <- model.matrix(fraud_eq, data=dataB)[,-1]
+y_test <- model.frame(fraud_eq, data=dataB)[,"current_ratio_flag"]
+
+pred.xgb <- c(predict(fit_optxgb, x_test, type="response"))
+predicted_positive_cr <- data.frame(
+  pred.xgb = pred.xgb,
+  current_ratio_flag = factor(y_test, levels = c(0, 1)),
+  dataB  # all original variables from dataB
+) |> mutate(pred.xgb = ifelse(pred.xgb > 0.5, 1, 0)) |> dplyr::select(code, pred.xgb) |> rename(pred_cr = pred.xgb)
+```
+
+
+# Account Restatements
+
+Financial statement restatements occur when a company must revise previously issued financial reports due to errors or misstatements. 
+
+In practice, a restatement is a formal admission that past statements were inaccurate, and it often raises red flags about a firm’s accounting practices and internal controls.
+
+## Clean data (starting with healthcare_df)
+
+To prepare the dataset for predictive modeling, two cleaned data files were first imported: one containing raw financial indicators (normalCleaned.csv) and another capturing percentage changes in key financial metrics (percentageChangeCleaned.csv). Relevant variables were selected from each dataset to retain only those most pertinent to the analysis. Column names were standardized for consistency, such as renaming R&D to rd_pctc and aligning all percentage-based variables with a _pctc suffix. The two datasets were then merged using an inner join on company code and year to create a unified panel dataset. Additional feature engineering was performed, including the creation of a binary flag (dte_flag) to indicate firms with potentially risky debt-to-equity ratios. The resulting dataset, restated_healthcare_df, is now fully cleaned, merged, and engineered—ready for regression and classification modeling. These steps are in line with earlier data cleaning steps. 
+
+```{r}
+
+normal <- read_csv("normalCleaned.csv")
+percentageChange <- read_csv("percentageChangeCleaned.csv")
+
+
+#1. remove first column
+#2. inner merge raw with %change wit relevant data
+# change factor variables to factor
+#3. create y variables with measurements
+#4. select variables to run regression
+
+normal_selected <- normal %>% 
+  dplyr::select(code, year_, 
+                debt_to_equity, 
+                return_on_equity, 
+                profit_margin, 
+                inventory_turnover, 
+                z_score, 
+                working_capital, 
+                industry, 
+                current_ratio, 
+                restated_later, 
+                overvaluation)
+#, total_debt, total_assets, cost_of_goods_sold, cash_flow, net_income, accounts_payable
+
+percentageChange <- percentageChange %>%
+  rename(rd = `R&D`)
+
+percentageChange_selected <- percentageChange %>% 
+  dplyr::select(code, year_, 
+                revenue, 
+                net_income, 
+                cash_flow, 
+                total_debt, 
+                rd,
+                accounts_receivable_days, 
+                market_cap) %>% 
+  rename(revenue_pctc = revenue, 
+         net_income_pctc = net_income, 
+         cash_flow_pctc = cash_flow, 
+         total_debt_pctc = total_debt, 
+         accounts_receivable_days_pctc = accounts_receivable_days, 
+         market_cap_pctc = market_cap, 
+         rd_pctc = rd
+         )
+
+# Merge datasets on code and year_
+healthcare_df <- inner_join(normal_selected, percentageChange_selected, by = c("code", "year_"))
+# View(healthcare_df)
+
+# Computing weights (Will not be used for this analysis, but will be kept for completion)
+n0 <- sum(healthcare_df$restated_later == 0)
+n1 <- sum(healthcare_df$restated_later == 1)
+w0 <- 1
+w1 <- n0 / n1
+
+healthcare_df <- healthcare_df |> mutate(dte_flag = ifelse(debt_to_equity <= 1.5 & debt_to_equity >= 0, 0, 1), overvaluation = as.factor(overvaluation), restated_later = as.factor(restated_later), wgt = ifelse(restated_later == 1, w1, w0), industry = as.factor(industry)) |> dplyr::select(-debt_to_equity)
+
+# Replace Inf and -Inf values with 0 only for numeric columns
+healthcare_df[] <- lapply(healthcare_df, function(x) {
+  if (is.numeric(x)) {
+    x <- replace(x, is.infinite(x), 0)  # Replace Inf and -Inf with NA in numeric columns
+  }
+  return(x)
+})
+
+restated_healthcare_df <- healthcare_df
+
+```
+
+## Splitting into 2019-2022 and 2023 data
+This is done as the model will be trained and tested on 2019-2022 data, while 
+2023 data will be used to make the predictions
+```{r}
+data_2023 <- restated_healthcare_df %>% filter(year_ == 2023)
+data_2023 <- data_2023[, !(names(restated_healthcare_df) %in% c("year_","wgt"))]
+
+df_prepped <- restated_healthcare_df |> filter(year_ != 2023)
+df_prepped <- df_prepped[, !(names(restated_healthcare_df) %in% c("code","year_","wgt"))]
+```
+
+## EDA
+
+As we can see here, the data is extremely imbalanced. In order to proceed, we
+will have to apply Synthetic Minority Oversampling Technique to obtain a 
+balanced training dataset. (We note that this method should be used with caution
+and that it does not always perform well on real world data). 
+
+```{r}
+data_2023 %>%
+  count(restated_later) %>%
+  mutate(percentage = n / sum(n)) %>%
+  ggplot(aes(x = restated_later, y = percentage)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Proportion of Restatements", x = "Restated", y = "Proportion") +
+  theme_minimal()
+
+```
+
+## Data check 
+
+Prior to applying SMOTE, the dataset (df_prepped) was thoroughly examined to ensure data integrity and suitability for resampling. First, missing values were identified using anyNA() and sum(is.na()), confirming whether imputation or row removal was necessary. Next, constant columns—those with only one unique value—were flagged across both numeric and categorical variables, as such features provide no discriminative power and can be excluded from modeling. A check was then performed to identify which columns were numeric, followed by calculating the variance of each numeric column to detect features with little or no variability, which may be poor predictors. Lastly, the factor (categorical) variables were inspected to verify that each had more than one level, ensuring they were meaningful for classification. This comprehensive data audit ensured that only relevant, clean, and informative features were passed into the SMOTE algorithm for effective class balancing.
+
+```{r}
+# --- 1. Check for Missing Values ---
+cat("Any NA values in df_prepped:", anyNA(df_prepped), "\n")
+cat("Total NA count:", sum(is.na(df_prepped)), "\n\n")
+
+# --- 2. Identify Constant Columns ---
+# For numeric columns, constant means only one unique value.
+# For factors, constant means only one level.
+constant_cols <- sapply(df_prepped, function(x) {
+  if (is.numeric(x)) {
+    return(length(unique(x)) == 1)
+  } else if (is.factor(x)) {
+    return(length(levels(x)) == 1)
+  } else {
+    return(FALSE)
+  }
+})
+cat("Constant columns overall:", names(df_prepped)[constant_cols], "\n\n")
+
+# --- 1. Check which columns are numeric ---
+numeric_flags <- sapply(df_prepped, is.numeric)
+cat("Numeric columns:\n")
+print(numeric_flags)
+# Ensure we only select numeric columns:
+numeric_data <- df_prepped[, which(numeric_flags), drop = FALSE]
+
+# --- 2. Calculate variances for numeric columns ---
+variances <- sapply(numeric_data, function(x) var(x, na.rm = TRUE))
+cat("Variances for numeric columns (overall):\n")
+print(variances)
+
+# --- 5. Check Categorical Variables ---
+categorical_vars <- sapply(df_prepped, is.factor)
+cat("Categorical variable levels:\n")
+for (col in names(df_prepped)[categorical_vars]) {
+  cat(col, "levels:", paste(levels(df_prepped[[col]]), collapse = ", "), "\n")
+}
+cat("\n")
+```
+
+## SMOTE
+
+### Preparing Data for SMOTE
+
+Set a train-test split. The SMOTE will only be applied on the training set, 
+but we ensure that the data is similar. 
+
+```{r}
+library(dplyr)
+set.seed(123)  # for reproducibility
+train_indices <- sample(seq_len(nrow(df_prepped)), size = 0.8 * nrow(df_prepped))
+train_data <- df_prepped[train_indices, ]
+test_data  <- df_prepped[-train_indices, ]
+
+cat("Training set rows:", nrow(train_data), "\n")
+cat("Test set rows:", nrow(test_data), "\n\n")
+```
+
+Continuous variables are identified and normalized in the training set using the scale() function, which centers and scales them (zero mean, unit variance). This is important to ensure that variables with different units or magnitudes do not dominate the model. The scaling parameters (mean and standard deviation) are stored for later use on the test data.
+
+```{r}
+# -------------------------------------------------
+# --- 1. Normalization of Continuous Variables ---
+# -------------------------------------------------
+
+# Define the continuous variables (adjust as appropriate)
+continuous_vars <- c("return_on_equity", "profit_margin", "inventory_turnover",
+                     "z_score", "working_capital", "current_ratio", "revenue_pctc",
+                     "net_income_pctc", "cash_flow_pctc", "total_debt_pctc", "rd_pctc",
+                     "accounts_receivable_days_pctc", "market_cap_pctc")
+
+## Normalize continuous predictors in the training set
+scaled_train <- scale(train_data[continuous_vars])
+
+# Extract scaling parameters from the scaled matrix
+center_vals <- attr(scaled_train, "scaled:center")
+scale_vals  <- attr(scaled_train, "scaled:scale")
+
+# Assign the scaled values back to the training set
+train_data[continuous_vars] <- scaled_train
+```
+
+The same scaling applied to the training set is used on the test set and 2023 set to ensure consistency. The mean and standard deviation values calculated from the training set (center_vals and scale_vals) are applied to scale the test set variables, ensuring that both sets are on the same scale for model evaluation.
+
+```{r}
+# --------------------------------------------------
+# --- 2. Apply the Same Scaling to the Test Set ---
+# --------------------------------------------------
+
+# Convert the test set continuous subset to a matrix
+test_continuous <- as.matrix(test_data[continuous_vars])
+cat("Dimensions of test_continuous matrix:", dim(test_continuous), "\n")
+
+# Apply scaling to the test set using the parameters from the training set
+test_scaled <- scale(test_continuous, center = center_vals, scale = scale_vals)
+
+# Replace the test set continuous columns with the scaled values
+test_data[continuous_vars] <- test_scaled
+
+# --------------------------------------------------
+# --- 3. Apply the Same Scaling to the 2023 data ---
+# --------------------------------------------------
+
+# Convert the test set continuous subset to a matrix
+new_continuous <- as.matrix(data_2023[continuous_vars])
+cat("Dimensions of 2023 data matrix:", dim(new_continuous), "\n")
+
+# Apply scaling to the test set using the parameters from the training set
+new_scaled <- scale(new_continuous, center = center_vals, scale = scale_vals)
+
+# Replace the test set continuous columns with the scaled values
+data_2023[continuous_vars] <- new_scaled
+
+```
+
+### UBL SMOTE Execution
+
+To prepare the training data for modeling with SMOTE, the dataset was first converted into a fully numeric format using model.matrix(), which transforms categorical variables into dummy variables while preserving numerical features. The target variable restated_later was then added back to the transformed training, test, and 2023 datasets. Using the SmoteClassif() function from the UBL package, SMOTE was applied to the training data to synthetically balance the classes, with C.perc = "balance" specifying equal representation for both restated and non-restated companies. After SMOTE, post-processing steps were performed to clean and realign variables. The binary variable dte_flag was thresholded and recoded as a factor, while a new overvaluation flag was derived from the overvaluation1 dummy, which was subsequently removed. Similarly, restated_later was reassigned using the generated restated_later1 column and cleaned up for consistency. This process ensured that the balanced dataset was clean, interpretable, and ready for downstream modeling.
+
+```{r}
+
+# Ensure that all data is in dataframe format
+train_data_numeric <- as.data.frame(model.matrix(~ . - 1, data = train_data))
+train_data_numeric$restated_later <- train_data$restated_later
+test_data_numeric <- as.data.frame(model.matrix(~ . - 1, data = test_data))
+test_data_numeric$restated_later <- test_data$restated_later
+data_2023_numeric <- as.data.frame(model.matrix(~ . - 1, data = data_2023))
+data_2023_numeric$restated_later <- data_2023$restated_later
+
+
+library(UBL)
+# UBL's SmoteClassif() uses a formula interface and expects the target variable
+# to be included in the data frame. Here, C.perc = "balance" tells UBL to balance the classes.
+smote_data_ubl <- SmoteClassif(restated_later ~ .,
+                               train_data_numeric, C.perc = "balance")
+
+cat("Class distribution after SMOTE:\n")
+
+print(table(smote_data_ubl$restated_later))
+
+# For a binary variable like dte_flag:
+smote_data_ubl$dte_flag <- ifelse(smote_data_ubl$dte_flag < 0.5, 0, 1)
+smote_data_ubl$dte_flag <- as.factor(smote_data_ubl$dte_flag)
+
+# Recalibrate overvaluation and remove overvaluation1 for consistency
+smote_data_ubl$overvaluation <- ifelse(smote_data_ubl$overvaluation1 < 0.5, 0, 1)
+smote_data_ubl$overvaluation <- as.factor(smote_data_ubl$overvaluation)
+
+smote_data_ubl$overvaluation1 <- NULL # Remove overvaluation1
+
+smote_data_ubl$restated_later <- as.factor(smote_data_ubl$restated_later1)
+smote_data_ubl$restated_later1 <- NULL
+
+```
+
+### Dealing with industries as they became numeric
+
+```{r}
+# Identify the dummy columns for industry:
+industry_cols <- grep("^industry", colnames(smote_data_ubl), value = TRUE)
+
+# For each observation, find the industry with the maximum value.
+# (Assumes that the synthetic values are close to 0 or 1.)
+industry_numeric <- apply(smote_data_ubl[, industry_cols, drop = FALSE], 1, which.max)
+
+# Create a factor variable for industry by mapping the index to the original levels.
+# First, extract the original industry levels from the training set, for example:
+original_levels <- levels(train_data$industry)
+smote_data_ubl$industry <- factor(original_levels[industry_numeric])
+
+# Optionally, remove the dummy columns:
+smote_data_ubl <- smote_data_ubl[, !(names(smote_data_ubl) %in% industry_cols)]
+
+```
+
+### Cleaning test data and 2023 to match smote dataset
+
+```{r}
+# For a binary variable like dte_flag:
+test_data_numeric$dte_flag <- ifelse(test_data_numeric$dte_flag < 0.5, 0, 1)
+test_data_numeric$dte_flag <- as.factor(test_data_numeric$dte_flag)
+
+# Similarly for overvaluation (if it was binary):
+# If overvaluation exists as a dummy variable named "overvaluation" or "overvaluation1",
+# adjust the code accordingly. Here we assume it is "overvaluation1".
+test_data_numeric$overvaluation <- ifelse(test_data_numeric$overvaluation1 < 0.5, 0, 1)
+test_data_numeric$overvaluation <- as.factor(test_data_numeric$overvaluation)
+
+test_data_numeric$overvaluation1 <- NULL
+
+# Identify the dummy columns for industry:
+industry_cols <- grep("^industry", colnames(test_data_numeric), value = TRUE)
+
+# For each observation, find the industry with the maximum value.
+# (Assumes that the synthetic values are close to 0 or 1.)
+industry_numeric <- apply(test_data_numeric[, industry_cols, drop = FALSE], 1, which.max)
+
+# Create a factor variable for industry by mapping the index to the original levels.
+# First, extract the original industry levels from the training set, for example:
+original_levels <- levels(test_data$industry)
+# Now assign the appropriate level. (Be careful: if dummy coding dropped a reference, you may need to adjust.)
+test_data_numeric$industry <- factor(original_levels[industry_numeric])
+
+# Optionally, remove the dummy columns:
+test_data_numeric <- test_data_numeric[, !(names(test_data_numeric) %in% industry_cols)]
+
+```
+
+### 2023 Data
+
+```{r}
+
+# For a binary variable like dte_flag:
+data_2023_numeric$dte_flag <- ifelse(data_2023_numeric$dte_flag < 0.5, 0, 1)
+data_2023_numeric$dte_flag <- as.factor(data_2023_numeric$dte_flag)
+
+# Similarly for overvaluation (if it was binary):
+# If overvaluation exists as a dummy variable named "overvaluation" or "overvaluation1",
+# adjust the code accordingly. Here we assume it is "overvaluation1".
+data_2023_numeric$overvaluation <- ifelse(data_2023_numeric$overvaluation1 < 0.5, 0, 1)
+data_2023_numeric$overvaluation <- as.factor(data_2023_numeric$overvaluation)
+
+data_2023_numeric$overvaluation1 <- NULL
+
+# Identify the dummy columns for industry:
+industry_cols <- grep("^industry", colnames(data_2023_numeric), value = TRUE)
+
+# For each observation, find the industry with the maximum value.
+# (Assumes that the synthetic values are close to 0 or 1.)
+industry_numeric <- apply(data_2023_numeric[, industry_cols, drop = FALSE], 1, which.max)
+
+# Create a factor variable for industry by mapping the index to the original levels.
+# First, extract the original industry levels from the training set, for example:
+original_levels <- levels(data_2023$industry)
+# Now assign the appropriate level. (Be careful: if dummy coding dropped a reference, you may need to adjust.)
+data_2023_numeric$industry <- factor(original_levels[industry_numeric])
+
+# Optionally, remove the dummy columns:
+data_2023_numeric <- data_2023_numeric[, !(names(data_2023_numeric) %in% industry_cols)]
+
+```
+
+We now test the various models, starting with the base logistic regression model
+
+## Base Logistic Model
+
+```{r}
+model <- glm(restated_later ~ ., data = smote_data_ubl, family = binomial)
+summary(model)
+```
+
+
+### Evaluate normal logistic regression on test set
+
+```{r}
+actual <- as.factor(test_data_numeric$restated_later)
+levels(actual) <- c("0", "1")
+
+# Predicted Probabilities and classes
+pred_probs <- predict(model, newdata = test_data_numeric, type = "response")
+pred_class <- ifelse(pred_probs > 0.5, "1", "0")
+
+
+conf_matrix <- table(Actual = actual, Predicted = pred_class)
+print(conf_matrix)
+
+# Function to compute metrics robustly
+get_metrics <- function(cm) {
+  TP <- ifelse("1" %in% rownames(cm) && "1" %in% colnames(cm), cm["1", "1"], 0)
+  TN <- ifelse("0" %in% rownames(cm) && "0" %in% colnames(cm), cm["0", "0"], 0)
+  FP <- ifelse("1" %in% rownames(cm) && "0" %in% colnames(cm), cm["1", "0"], 0)
+  FN <- ifelse("0" %in% rownames(cm) && "1" %in% colnames(cm), cm["0", "1"], 0)
+
+  sensitivity <- ifelse((TP + FN) > 0, TP / (TP + FN), NA)
+  specificity <- ifelse((TN + FP) > 0, TN / (TN + FP), NA)
+  precision   <- ifelse((TP + FP) > 0, TP / (TP + FP), NA)
+  
+  return(list(
+    sensitivity = round(sensitivity, 4),
+    specificity = round(specificity, 4),
+    precision   = round(precision, 4)
+  ))
+}
+
+# Compute and print performance metrics
+log_metrics <- get_metrics(conf_matrix)
+cat("Base Logistic Regression Metrics:\n")
+print(log_metrics)
+
+# Compute ROC and AUC
+library(pROC)
+roc_log <- roc(response = actual, predictor = pred_probs)
+auc_log <- auc(roc_log)
+cat("AUC (Logistic Regression):", auc_log, "\n")
+
+
+
+```
+
+Logistic regression performs poorly on the test set, with an AUC below 0.6. 
+It also has poor sensitivity and specificity. 
+
+## Random Forest
+
+```{r}
+
+library(randomForest)
+rf_model <- randomForest(restated_later ~ ., data = smote_data_ubl, 
+                         ntree = 500, importance = TRUE)
+
+# Print a summary of the model
+print(rf_model)
+
+# Plot variable importance
+varImpPlot(rf_model)
+
+```
+
+### Evaluate Random Forest
+
+```{r}
+# Generate predictions on the test set
+# For classification, type = "response" gives class labels,
+# while type = "prob" gives the predicted probabilities.
+rf_preds <- predict(rf_model, newdata = test_data_numeric, type = "response")
+rf_pred_probs <- predict(rf_model, newdata = test_data_numeric, type = "prob")[, 2]  # probability of class "1"
+
+# Create a confusion matrix
+conf_matrix <- table(Predicted = rf_preds, Actual = test_data_numeric$restated_later)
+print(conf_matrix)
+
+# Calculate Accuracy
+accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
+cat("Accuracy on test set:", accuracy, "\n")
+
+# Calculate AUC using the pROC package
+# install.packages("pROC")
+library(pROC)
+roc_rf <- roc(test_data_numeric$restated_later, rf_pred_probs)
+auc_value <- auc(roc_rf)
+cat("AUC:", auc_value, "\n")
+
+# Extract values from the confusion matrix
+TN <- conf_matrix["0", "0"]
+TP <- conf_matrix["1", "1"]
+FN <- conf_matrix["0", "1"]
+FP <- conf_matrix["1", "0"]
+
+# Compute metrics
+sensitivity <- TP / (TP + FN)
+specificity <- TN / (TN + FP)
+
+# Print results
+cat("Sensitivity:", round(sensitivity, 4), "\n")
+cat("Specificity:", round(specificity, 4), "\n")
+
+```
+
+The random forest has a significantly better AUC and better sensitivity and specificity as well. 
+
+## LASSO Regression
+
+```{r}
+
+library(glmnet)
+library(pROC)
+
+# Define formula
+formula <- as.formula("restated_later ~ .")
+
+# Convert target to factor (if not already)
+smote_data_ubl$restated_later <- as.factor(smote_data_ubl$restated_later)
+test_data_numeric$restated_later <- as.factor(test_data_numeric$restated_later)
+
+# Create model matrices
+x_train <- model.matrix(formula, data = smote_data_ubl)[, -1]
+y_train <- smote_data_ubl$restated_later
+
+x_test <- model.matrix(formula, data = test_data_numeric)[, -1]
+y_test <- test_data_numeric$restated_later
+
+# Align columns
+missing_cols <- setdiff(colnames(x_train), colnames(x_test))
+for (col in missing_cols) {
+  x_test <- cbind(x_test, rep(0, nrow(x_test)))
+  colnames(x_test)[ncol(x_test)] <- col
+}
+x_test <- x_test[, colnames(x_train)]
+
+# Train LASSO model
+cv_lasso <- cv.glmnet(x_train, y_train, family = "binomial", alpha = 1, type.measure = "auc")
+
+# Predict probabilities
+pred_min <- predict(cv_lasso, newx = x_test, s = "lambda.min", type = "response")
+pred_1se <- predict(cv_lasso, newx = x_test, s = "lambda.1se", type = "response")
+
+# AUC + ROC curves
+roc_lasso_min <- roc(response = y_test, predictor = pred_min)
+roc_lasso_1se <- roc(response = y_test, predictor = pred_1se)
+
+auc_min <- auc(roc_lasso_min)
+auc_1se <- auc(roc_lasso_1se)
+
+cat("AUC for lambda.min: ", auc_min, "\n")
+cat("AUC for lambda.1se:", auc_1se, "\n")
+
+# Convert probabilities to class predictions (threshold = 0.5)
+lasso_pred_class_min <- ifelse(pred_min >= 0.5, "1", "0")
+lasso_pred_class_1se <- ifelse(pred_1se >= 0.5, "1", "0")
+
+# Confusion matrices
+conf_min <- table(Actual = y_test, Predicted = lasso_pred_class_min)
+conf_1se <- table(Actual = y_test, Predicted = lasso_pred_class_1se)
+
+# Robust metric extractor
+get_metrics <- function(cm) {
+  TP <- ifelse("1" %in% rownames(cm) && "1" %in% colnames(cm), cm["1", "1"], 0)
+  TN <- ifelse("0" %in% rownames(cm) && "0" %in% colnames(cm), cm["0", "0"], 0)
+  FP <- ifelse("1" %in% rownames(cm) && "0" %in% colnames(cm), cm["1", "0"], 0)
+  FN <- ifelse("0" %in% rownames(cm) && "1" %in% colnames(cm), cm["0", "1"], 0)
+  
+  sensitivity <- ifelse((TP + FN) > 0, TP / (TP + FN), NA)
+  specificity <- ifelse((TN + FP) > 0, TN / (TN + FP), NA)
+  precision   <- ifelse((TP + FP) > 0, TP / (TP + FP), NA)
+  
+  return(list(
+    sensitivity = round(sensitivity, 4),
+    specificity = round(specificity, 4),
+    precision = round(precision, 4)
+  ))
+}
+
+# Compute and print metrics
+metrics_min <- get_metrics(conf_min)
+metrics_1se <- get_metrics(conf_1se)
+
+cat("LASSO (lambda.min):\n")
+print(metrics_min)
+
+cat("\nLASSO (lambda.1se):\n")
+print(metrics_1se)
+```
+
+LASSO has a poor AUC and poor sensitivity. 
+
+## XGBoost
+```{r}
+# Load libraries
+library(xgboost)
+library(pROC)
+library(Matrix)
+
+# Ensure target is a binary numeric vector (0 and 1)
+y_train <- as.numeric(smote_data_ubl$restated_later) - 1
+y_test <- as.numeric(test_data_numeric$restated_later) - 1
+
+# 1. Model matrices
+x_train <- sparse.model.matrix(restated_later ~ . -1, data = smote_data_ubl)
+x_test_tmp <- sparse.model.matrix(restated_later ~ . -1, data = test_data_numeric)
+
+# 2. Align columns
+missing_cols <- setdiff(colnames(x_train), colnames(x_test_tmp))
+for (col in missing_cols) {
+  x_test_tmp <- cbind(x_test_tmp, Matrix(0, nrow = nrow(x_test_tmp), ncol = 1, sparse = TRUE))
+  colnames(x_test_tmp)[ncol(x_test_tmp)] <- col
+}
+x_test <- x_test_tmp[, colnames(x_train)]
+
+# 3. Create DMatrix
+dtrain <- xgb.DMatrix(data = x_train, label = y_train)
+dtest <- xgb.DMatrix(data = x_test, label = y_test)
+
+# 4. Parameters and training
+params <- list(
+  objective = "binary:logistic",
+  eval_metric = "auc",
+  max_depth = 6,
+  eta = 0.1
+)
+
+xgb_model <- xgb.train(
+  params = params,
+  data = dtrain,
+  nrounds = 100,
+  watchlist = list(train = dtrain, test = dtest),
+  early_stopping_rounds = 10,
+  verbose = 0
+)
+
+# 5. Predictions
+xgb_pred <- predict(xgb_model, dtest)
+xgb_pred_class <- ifelse(xgb_pred >= 0.5, 1, 0)
+
+# 6. AUC and ROC
+roc_xgb <- roc(y_test, xgb_pred)
+auc_xgb <- auc(roc_xgb)
+cat("AUC for XGBoost model:", auc_xgb, "\n")
+
+# 7. Confusion Matrix
+conf_xgb <- table(Actual = y_test, Predicted = xgb_pred_class)
+
+# 8. Metrics
+get_metrics <- function(cm) {
+  TP <- ifelse("1" %in% rownames(cm) && "1" %in% colnames(cm), cm["1", "1"], 0)
+  TN <- ifelse("0" %in% rownames(cm) && "0" %in% colnames(cm), cm["0", "0"], 0)
+  FP <- ifelse("1" %in% rownames(cm) && "0" %in% colnames(cm), cm["1", "0"], 0)
+  FN <- ifelse("0" %in% rownames(cm) && "1" %in% colnames(cm), cm["0", "1"], 0)
+
+  sensitivity <- ifelse((TP + FN) > 0, TP / (TP + FN), NA)
+  specificity <- ifelse((TN + FP) > 0, TN / (TN + FP), NA)
+  precision   <- ifelse((TP + FP) > 0, TP / (TP + FP), NA)
+
+  return(list(
+    sensitivity = round(sensitivity, 4),
+    specificity = round(specificity, 4),
+    precision = round(precision, 4)
+  ))
+}
+
+metrics_xgb <- get_metrics(conf_xgb)
+cat("\nXGBoost Model Metrics:\n")
+print(metrics_xgb)
+
+
+```
+
+XG Boost has poor sensitivity and lower AUC than the random forest 
+
+## Model Comparisons
+
+```{r}
+# Plot the first ROC curve
+plot(roc_log, col = "blue", lwd = 2, main = "ROC Curve - All Models", legacy.axes = TRUE)
+
+# Add other ROC curves
+lines(roc_lasso_min, col = "darkgreen", lwd = 2, lty = 2)
+lines(roc_lasso_1se, col = "green", lwd = 2, lty = 3)
+lines(roc_rf, col = "purple", lwd = 2, lty = 4)
+lines(roc_xgb, col = "red", lwd = 2, lty = 5)
+
+# Add legend
+legend("bottomright", 
+       legend = c(
+         paste0("Logistic (AUC=", round(auc(roc_log), 3), ")"),
+         paste0("LASSO Min (AUC=", round(auc(roc_lasso_min), 3), ")"),
+         paste0("LASSO 1SE (AUC=", round(auc(roc_lasso_1se), 3), ")"),
+         paste0("Random Forest (AUC=", round(auc(roc_rf), 3), ")"),
+         paste0("XGBoost (AUC=", round(auc(roc_xgb), 3), ")")
+       ),
+       col = c("blue", "darkgreen", "green", "purple", "red"),
+       lty = 1:5, lwd = 2, cex = 0.8)
+
+
+```
+
+Random Forest is the best model, based off both AUC and sensitivity metrics. 
+We will thus use the model for prediction on the 2023 dataset
+
+## Evaluate on Unseen Data (2023)
+
+```{r}
+
+rf_preds <- predict(rf_model, newdata = data_2023_numeric, type = "response")
+
+# 2. Bind predictions to the original data (which includes company code)
+results_2023 <- data_2023_numeric
+results_2023$predicted_class <- rf_preds
+
+# 3. Filter for predicted class = 1
+predicted_positive_restatement <- results_2023 %>% 
+  rename("pred_restated" = "predicted_class") %>% dplyr::select(code,pred_restated)
+
+
+# View the result
+print(predicted_positive_restatement)
+
+```
+
+## Overvaluation
+
+Overvaluation occurs when the market capitalisation is greater than the equity value of a firm less retained earnings. This means that the optimism of the outlook is not wholly justified by its fundamentals, which is often a common goal of accounting manipulation. A study conducted on 526 overvalued companies that had to restate their earnings to be lower showed a 39% drop in equity value and consistent underperformance after restatement due to adjustments for both overvaluation and loss of confidence (Marciukaityte & Varma, 2008).
+
+In this model, we used overvaluation as dependent variable and debt_to_equity, return_on_equity, profit_margin, current_ratio, inventory_turnover, z_score, restated_later, working_capital, net_income_pctc, cash_flow_pctc, total_debt_pctc, accounts_receivable_days_pctc, market_cap_pctc as independent variables.
+
+### Splitting into 2019-2022 and 2023 data
+
+```{r, warning=F, message=F}
+# Dataframes
+normal <- read_csv("normalCleaned.csv")
+percentageChange <- read_csv("percentageChangeCleaned.csv")
+
+# Select variables for normal and percentageChange
+normal_selected <- normal %>% 
+  dplyr::select(code, year_, debt_to_equity, return_on_equity, profit_margin, 
+         current_ratio, inventory_turnover, z_score, overvaluation, restated_later, working_capital, industry)
+
+percentageChange_selected <- percentageChange %>% 
+  dplyr::select(code, year_, net_income, cash_flow, total_debt, 
+         accounts_receivable_days, market_cap) %>% rename(net_income_pctc = net_income, cash_flow_pctc = cash_flow, total_debt_pctc = total_debt, accounts_receivable_days_pctc = accounts_receivable_days, market_cap_pctc = market_cap)
+
+# Merge datasets on code and year_
+healthcare_df <- inner_join(normal_selected, percentageChange_selected, by = c("code", "year_"))
+
+df <- healthcare_df %>%
+  mutate(across(everything(), ~ ifelse(is.na(.x) | is.infinite(.x), 0, .x)))
+
+weight_to_use <- (nrow(df) - sum(df$overvaluation)) / sum(df$overvaluation)
+
+df$wgt <- ifelse(df$overvaluation == 1, weight_to_use, 1)
+
+df_to_test <- df %>% filter(year_ == 2023)
+
+df <- anti_join(df, df_to_test)
+
+df <- df %>% mutate(overvaluation = factor(overvaluation, levels = c(0, 1)))
+
+df_to_test <- df_to_test %>% mutate(overvaluation = factor(overvaluation, levels = c(0, 1)))
+
+df <- healthcare_df %>%
+  mutate(across(everything(), ~ ifelse(is.na(.x) | is.infinite(.x), 0, .x)))
+
+weight_to_use <- (nrow(df) - sum(df$overvaluation)) / sum(df$overvaluation)
+
+df$wgt <- ifelse(df$overvaluation == 1, weight_to_use, 1)
+
+df_to_test <- df %>% filter(year_ == 2023)
+
+df <- anti_join(df, df_to_test)
+
+df <- df %>% mutate(overvaluation = factor(overvaluation, levels = c(0, 1)))
+
+df_to_test <- df_to_test %>% mutate(overvaluation = factor(overvaluation, levels = c(0, 1)))
+```
+
+### Splitting into train and test set
+
+```{r}
+set.seed(123)
+
+df_overvaluation <- dplyr::select(df, -code, -year_)
+
+train_overvaluation <- sample_frac(df_overvaluation, 0.8)
+test_overvaluation <- anti_join(df_overvaluation, train_overvaluation)
+```
+
+## Simple Logistic Regression
+
+```{r}
+overvaluation_formula <- as.formula(paste("overvaluation ~ debt_to_equity + return_on_equity + profit_margin + current_ratio + inventory_turnover + z_score + restated_later + working_capital + net_income_pctc + cash_flow_pctc + total_debt_pctc + accounts_receivable_days_pctc + market_cap_pctc"))
+log_overvaluation <- glm(overvaluation_formula, data = train_overvaluation, family = binomial, weights = train_overvaluation$wgt)
+summary(log_overvaluation)
+
+train_overvaluation_simple <- train_overvaluation %>% mutate(overvaluation = factor(overvaluation, levels = c(0, 1)))
+test_overvaluation_simple <- test_overvaluation %>% mutate(overvaluation = factor(overvaluation, levels = c(0, 1)))
+
+train_overvaluation_simple$pred <- c(predict(log_overvaluation, train_overvaluation_simple,
+                                             type = 'response'))
+test_overvaluation_simple$pred <- c(predict(log_overvaluation, test_overvaluation_simple,
+                                            type = 'response'))
+
+auc_in_simple_overvaluation <- train_overvaluation_simple %>% roc_auc(overvaluation, pred, event_level = 'second')
+auc_out_simple_overvaluation <- test_overvaluation_simple %>% roc_auc(overvaluation, pred, event_level = 'second')
+curve_in_simple_overvaluation <- train_overvaluation_simple %>% roc_curve(overvaluation, pred, event_level = 'second')
+curve_out_simple_overvaluation <- test_overvaluation_simple %>% roc_curve(overvaluation, pred, event_level = 'second')
+```
+
+### LASSO
+
+```{r}
+x_overvaluation <- model.matrix(overvaluation_formula, data = train_overvaluation)[,-1]
+y_overvaluation <- model.frame(overvaluation_formula, data = train_overvaluation)[, 'overvaluation']
+
+fit_LASSO_overvaluation <- glmnet(x = x_overvaluation, y = y_overvaluation,
+                                  family = "binomial",
+                                  alpha = 1,
+                                  weights = train_overvaluation$wgt)
+
+cvfit_overvaluation <- cv.glmnet(x = x_overvaluation, y = y_overvaluation, family = "binomial", alpha = 1, type.measure = "auc",
+                                 weights = train_overvaluation$wgt)
+plot(cvfit_overvaluation)
+
+xp_train_overvaluation <- model.matrix(overvaluation_formula, data = train_overvaluation,
+                                       na.action = 'na.pass')[,-1]
+
+xp_test_overvaluation <- model.matrix(overvaluation_formula, data = test_overvaluation,
+                                      na.action = 'na.pass')[,-1]
+
+train_overvaluation$pred_L1.min <- c(predict(cvfit_overvaluation, xp_train_overvaluation,
+                                             type = 'response', s = 'lambda.min'))
+train_overvaluation$pred_L1.1se <- c(predict(cvfit_overvaluation, xp_train_overvaluation,
+                                             type = 'response', s = 'lambda.1se'))
+test_overvaluation$pred_L1.min <- c(predict(cvfit_overvaluation, xp_test_overvaluation,
+                                            type = 'response', s = 'lambda.min'))
+test_overvaluation$pred_L1.1se <- c(predict(cvfit_overvaluation, xp_test_overvaluation,
+                                            type = 'response', s = 'lambda.1se'))
+
+
+overvaluation_auc_in_lmin <- train_overvaluation %>% roc_auc(overvaluation, pred_L1.min,
+                                                             event_level = 'second')
+overvaluation_auc_in_l1se <- train_overvaluation %>% roc_auc(overvaluation, pred_L1.1se,
+                                                             event_level = 'second')
+overvaluation_curve_in_CV.min <- train_overvaluation %>% roc_curve(overvaluation, pred_L1.min,
+                                                                   event_level = 'second')
+overvaluation_curve_in_CV.1se <- train_overvaluation %>% roc_curve(overvaluation, pred_L1.1se,
+                                                                   event_level = 'second')
+
+overvaluation_auc_out_lmin <- test_overvaluation %>% roc_auc(overvaluation, pred_L1.min,
+                                                             event_level = 'second')
+overvaluation_auc_out_l1se <- test_overvaluation %>% roc_auc(overvaluation, pred_L1.1se,
+                                                             event_level = 'second')
+overvaluation_curve_out_CV.min <- test_overvaluation %>% roc_curve(overvaluation, pred_L1.min,
+                                                                   event_level = 'second')
+overvaluation_curve_out_CV.1se <- test_overvaluation %>% roc_curve(overvaluation, pred_L1.1se,
+                                                                   event_level = 'second')
+
+overvaluation_aucs_CV.min <- c(overvaluation_auc_in_lmin$.estimate, overvaluation_auc_out_lmin$.estimate)
+names(overvaluation_aucs_CV.min) <- c("In sample, lambda.min", "Out of sample, lambda.min")
+
+overvaluation_aucs_CV.1se <- c(overvaluation_auc_in_l1se$.estimate, overvaluation_auc_out_l1se$.estimate)
+names(overvaluation_aucs_CV.1se) <- c("In sample, lambda.1se", "Out of sample, lambda.1se")
+```
+
+### Tidyverse LASSO
+
+```{r}
+train_overvaluation_rec <- train_overvaluation %>% mutate(overvaluation = as.numeric(as.character(overvaluation))) %>%
+  dplyr::select(-pred_L1.min, -pred_L1.1se)
+
+test_overvaluation_rec <- test_overvaluation %>% mutate(overvaluation = as.numeric(as.character(overvaluation))) %>%
+  dplyr::select(-pred_L1.min, -pred_L1.1se)
+
+rec_overvaluation <- recipe(overvaluation_formula, data = train_overvaluation_rec) %>%
+  step_zv(all_predictors()) %>%  # Drop any variables with zero variance
+  step_center(all_predictors()) %>%  # Center all prediction variables (i.e. avg value = 0)
+  step_scale(all_predictors()) %>%  # Scale all prediction variables (scaled to Z-score)
+  step_intercept() %>%  # Add an intercept to the model
+  step_num2factor(all_outcomes(), ordered = T, levels=c("0","1"),
+                  transform = function(x) x + 1)  # Convert DV to factor for parsnip later
+
+prep_overvaluation <- rec_overvaluation %>% prep(training = train_overvaluation_rec)
+test_prep_overvaluation <- rec_overvaluation %>% prep(training = test_overvaluation_rec)
+
+train_baked_overvaluation <- bake(prep_overvaluation, new_data = train_overvaluation_rec)
+test_baked_overvaluation <- bake(prep_overvaluation, new_data = test_overvaluation_rec)
+
+train_model_overvaluation <- logistic_reg(mixture = 1, penalty = 1) %>%
+  set_engine('glmnet') %>%
+  fit(overvaluation_formula, data = train_baked_overvaluation,
+      weights = train_overvaluation_rec$wgt)
+
+train_x_overvaluation <- juice(prep_overvaluation, all_predictors(), 
+                               composition = "dgCMatrix")
+train_y_overvaluation <- juice(prep_overvaluation, all_outcomes()) %>%
+  mutate(overvaluation = as.numeric(overvaluation) - 1) %>%
+  as.matrix()
+test_x_overvaluation <- juice(test_prep_overvaluation, all_predictors(),
+                              composition = "dgCMatrix")
+test_y_overvaluation <- juice(test_prep_overvaluation, all_outcomes()) %>%
+  mutate(overvaluation = as.numeric(overvaluation) - 1) %>%
+  as.matrix()
+
+cvfit_overvaluation_tidy <- cv.glmnet(x = train_x_overvaluation,
+                                      y = train_y_overvaluation,
+                                      family = "binomial",
+                                      alpha = 1,
+                                      type.measure = "auc",
+                                      weights = train_overvaluation_rec$wgt)
+plot(cvfit_overvaluation_tidy)
+
+train.pred_1min2_overvaluation <- c(predict(cvfit_overvaluation_tidy, train_x_overvaluation, type="response", s = "lambda.min"))
+test.pred_1min2_overvaluation <- c(predict(cvfit_overvaluation_tidy, test_x_overvaluation, type="response", s = "lambda.min"))
+train.pred_l1se2_overvaluation <- c(predict(cvfit_overvaluation_tidy, train_x_overvaluation, type="response", s = "lambda.1se"))
+test.pred_l1se2_overvaluation <- c(predict(cvfit_overvaluation_tidy, test_x_overvaluation, type="response", s = "lambda.1se"))
+
+df_train_overvaluation <- data.frame(train.pred_1min2 = train.pred_1min2_overvaluation, train.pred_l1se2 = train.pred_l1se2_overvaluation, 
+                                     overvaluation = factor(train_y_overvaluation, levels = c(0, 1)))
+df_test_overvaluation <- data.frame(test.pred_1min2 = test.pred_1min2_overvaluation, test.pred_l1se2 = test.pred_l1se2_overvaluation, 
+                                    overvaluation = factor(test_y_overvaluation, levels = c(0, 1)))
+
+auc_in_cv_min2_overvaluation <- df_train_overvaluation %>% roc_auc(overvaluation, train.pred_1min2, event_level='second')
+auc_out_cv_min2_overvaluation <- df_test_overvaluation %>% roc_auc(overvaluation, test.pred_1min2, event_level='second')
+curve_in_CV.min2_overvaluation <- df_train_overvaluation %>% roc_curve(overvaluation, train.pred_1min2, event_level='second')
+curve_out_CV.min2_overvaluation <- df_test_overvaluation %>% roc_curve(overvaluation, test.pred_1min2, event_level='second')
+
+auc_in_cv.1se2_overvaluation <- df_train_overvaluation %>% roc_auc(overvaluation, train.pred_l1se2, event_level='second')
+auc_out_cv.1se2_overvaluation <- df_test_overvaluation %>% roc_auc(overvaluation, test.pred_l1se2, event_level = 'second')
+curve_in_CV.1se2_overvaluation <- df_train_overvaluation %>% roc_curve(overvaluation, train.pred_l1se2, event_level='second')
+curve_out_CV.1se2_overvaluation <- df_test_overvaluation %>% roc_curve(overvaluation, test.pred_l1se2, event_level = 'second')
+```
+
+### XGBoost
+
+```{r}
+rec_overvaluation_2 <- recipe(overvaluation_formula, data = train_overvaluation_rec) %>%
+  step_zv(all_predictors()) %>%  # Drop any variables with zero variance
+  step_center(all_predictors()) %>%  # Center all prediction variables (i.e. avg value = 0)
+  step_scale(all_predictors()) %>%  # Scale all prediction variables (scaled to Z-score)
+  step_intercept()  # Add an intercept to the model
+
+prep_overvaluation_2 <- rec_overvaluation_2 %>% prep(training = train_overvaluation_rec)
+test_prep_overvaluation_2 <- rec_overvaluation_2 %>% prep(training = test_overvaluation_rec)
+
+train_x_overvaluation_2 <- juice(prep_overvaluation_2, all_predictors(),
+                                 composition = "dgCMatrix")
+train_y_overvaluation_2 <- juice(prep_overvaluation_2, all_outcomes(),
+                                 composition = "matrix")
+test_x_overvaluation_2 <- juice(test_prep_overvaluation_2, all_predictors(),
+                                composition = "dgCMatrix")
+test_y_overvaluation_2 <- juice(test_prep_overvaluation_2, all_outcomes(),
+                                composition = "matrix")
+
+params <- list(max_depth=10,
+               eta=0.2,
+               gamma=10,
+               min_child_weight = 5,
+               objective =
+                 "binary:logistic")
+
+xgbCV_overvaluation <- xgb.cv(params = params,
+                              data = train_x_overvaluation_2,
+                              label = train_y_overvaluation_2,
+                              nrounds = 100,
+                              eval_metric = "auc",
+                              nfold = 10,
+                              stratified = TRUE,
+                              weights = train_overvaluation_rec$wgt)
+
+numTrees_overvaluation <- min(
+  which(
+    xgbCV_overvaluation$evaluation_log$test_auc_mean == 
+      max(xgbCV_overvaluation$evaluation_log$test_auc_mean)
+  )
+)
+
+fit_optxgb_overvaluation <- xgboost(params=params,
+                                    data = train_x_overvaluation_2,
+                                    label = train_y_overvaluation_2,
+                                    nrounds = numTrees_overvaluation, # re-run model at this optimal level
+                                    eval_metric="auc")
+
+xgb.train.data_overvaluation <- xgb.DMatrix(train_x_overvaluation_2, 
+                                            label = train_y_overvaluation_2, 
+                                            missing = NA)
+col_names_overvaluation = attr(xgb.train.data_overvaluation, ".Dimnames")[[2]]
+imp_overvaluation = xgb.importance(col_names_overvaluation, fit_optxgb_overvaluation)
+
+xgb.plot.importance(imp_overvaluation)
+
+pred.xgb_overvaluation_test <- c(predict(fit_optxgb_overvaluation, test_x_overvaluation_2, type = "response"))
+df_test_overvaluation_2 <- data.frame(pred.xgb = pred.xgb_overvaluation_test, overvaluation = factor(test_y_overvaluation_2, levels = c(0,1)))
+
+pred.xgb_overvaluation_train <- c(predict(fit_optxgb_overvaluation, train_x_overvaluation_2, type = "response"))
+df_train_overvaluation_2 <- data.frame(pred.xgb = pred.xgb_overvaluation_train, overvaluation = factor(train_y_overvaluation_2, levels = c(0,1)))
+
+auc_in_xgb_overvaluation <- df_train_overvaluation_2 %>% roc_auc(overvaluation, pred.xgb, event_level = "second")
+auc_out_xgb_overvaluation <- df_test_overvaluation_2 %>% roc_auc(overvaluation, pred.xgb, event_level = "second")
+curve_in_xgb_overvaluation <- df_train_overvaluation_2 %>% roc_curve(overvaluation, pred.xgb, event_level = "second")
+curve_out_xgb_overvaluation <- df_test_overvaluation_2 %>% roc_curve(overvaluation, pred.xgb, event_level = "second")
+```
+
+### Comparison of the Models
+
+```{r}
+ggplot() +
+  geom_line(data = overvaluation_curve_out_CV.min, aes(y = sensitivity, x = 1 -specificity, color = "LASSO, lambda.min")) +
+  geom_line(data = overvaluation_curve_out_CV.1se, aes(y = sensitivity, x = 1 -specificity, color = "LASSO, lambda.1se")) +
+  geom_line(data = curve_out_CV.min2_overvaluation, aes(y = sensitivity, x = 1 -specificity, color = "Tidy LASSO, lambda.min")) + 
+  geom_line(data = curve_out_CV.1se2_overvaluation, aes(y = sensitivity, x = 1 -specificity, color = "Tidy LASSO, lambda.1se")) +
+  geom_line(data = curve_out_xgb_overvaluation, aes(y = sensitivity, x = 1 -specificity, color = "XGBoost")) +
+  geom_line(data = curve_out_simple_overvaluation, aes(y = sensitivity, x = 1-specificity, color = "Simple Logistic")) +
+  geom_abline(slope = 1)
+
+aucs_overvaluation <- c(auc_out_xgb_overvaluation$.estimate, auc_out_cv.1se2_overvaluation$.estimate, auc_out_cv_min2_overvaluation$.estimate,
+                        overvaluation_auc_out_l1se$.estimate, overvaluation_auc_out_lmin$.estimate, auc_out_simple_overvaluation$.estimate)
+names(aucs_overvaluation) <- c("Out of Sample, XGBoost", "Out of Sample, Tidy LASSO 1se", "Out of Sample, Tidy LASSO min",
+                               "Out of Sample, LASSO 1se", "Out of Sample, LASSO min", "Out of Sample, Simple")
+aucs_overvaluation
+```
+
+The two models with the best area-under-curve are Tidy LASSO min and Tidy LASSO 
+
+### Confusion Matrix
+
+```{r}
+df_train_overvaluation <- df_train_overvaluation %>% 
+  mutate(predictions_min = ifelse(train.pred_1min2 > 0.5, 1, 0)) %>%
+  mutate(predictions_min = factor(predictions_min, level = c(0,1)))
+
+df_train_overvaluation <- df_train_overvaluation %>% 
+  mutate(predictions_l1se = ifelse(train.pred_l1se2 > 0.5, 1, 0)) %>%
+  mutate(predictions_l1se = factor(predictions_l1se, level = c(0,1)))
+
+df_test_overvaluation <- df_test_overvaluation %>%
+  mutate(predictions_min = ifelse(test.pred_1min2 > 0.5, 1, 0)) %>%
+  mutate(predictions_min = factor(predictions_min, level = c(0,1)))
+
+df_test_overvaluation <- df_test_overvaluation %>% 
+  mutate(predictions_l1se = ifelse(test.pred_l1se2 > 0.5, 1, 0)) %>%
+  mutate(predictions_l1se = factor(predictions_l1se, level = c(0,1)))
+
+confmat_test_min <- confusionMatrix(df_test_overvaluation$predictions_min,
+                                    df_test_overvaluation$overvaluation,
+                                    positive = '1')
+
+confmat_test_1se <- confusionMatrix(df_test_overvaluation$predictions_l1se,
+                                    df_test_overvaluation$overvaluation,
+                                    positive = '1')
+confmat_test_min
+confmat_test_1se
+```
+
+Tidy LASSO 1se displays a higher sensitivity, which we selected as we prioritised identifying true positives, and the false positives identified by this model could be filtered out by the other dependent variables.
+
+This LASSO model identified the following notable variables with a high correlation with oevrvaluation risk:
+
+Market capitalisation % Change (1.9575): An increase in market capitalisation implies that the outlook of a company is more optimistic.
+
+Note: Market cap change is very significant as it ties directly into the equation for overvaluation, which is market capitalisation being greater than equity
+
+Working Capital (-1.4417): A particularly strong negative correlation with overvaluation risk as a higher working capital can signify better liquidity, justifying a higher price. A high working capital can also mean the company is less aggressive, decreasing the gap between optimism and fundamentals.
+
+Return on Equity (0.1458): Investors may be more optimstic about companies with higher return on equity as it displays a company's ability to generate profit from shareholder equity. 
+
+## Predicting companies with overvaluation
+
+```{r}
+lasso_coefs <- c(
+  "(Intercept)" = 0.0186576830,
+  "debt_to_equity" = -0.0259492150,
+  "return_on_equity" = 0.1458464157,
+  "profit_margin" = 0.0005831538,
+  "current_ratio" = 0.0044381229,
+  "inventory_turnover" = 0.0141108078,
+  "z_score" = 0.1303028750,
+  "restated_later" = -0.0518944179,
+  "working_capital" = -1.4417671928,
+  "net_income_pctc" = -0.0035766419,
+  "cash_flow_pctc" = -0.0331688013,
+  "total_debt_pctc" = 0.0305909665,
+  "accounts_receivable_days_pctc" = 0.0657267772,
+  "market_cap_pctc" = 1.9575968849
+)
+
+predict_lasso_prob <- function(df, lasso_coefs, output_col = "lasso_prob") {
+  # Get variable names used in the model (excluding intercept)
+  vars <- setdiff(names(lasso_coefs), "(Intercept)")
+  
+  # Check for missing variables
+  missing_vars <- setdiff(vars, names(df))
+  if (length(missing_vars) > 0) {
+    stop(paste("Missing variables in df:", paste(missing_vars, collapse = ", ")))
+  }
+  
+  # Calculate log-odds (excluding intercept)
+  log_odds <- as.numeric(as.matrix(df[, vars, drop = FALSE]) %*% lasso_coefs[vars])
+  
+  # Add intercept manually
+  log_odds <- log_odds + lasso_coefs["(Intercept)"]
+  
+  # Convert log-odds to probabilities
+  prob <- 1 / (1 + exp(-log_odds))
+  
+  # Add probabilities as new column in df
+  df[[output_col]] <- prob
+  return(df)
+}
+
+# 3. Use it on your data frame
+df_to_test <- predict_lasso_prob(df_to_test, lasso_coefs)
+
+# 4. Amend df with the new classifications
+df_to_test <- df_to_test %>% mutate(overvaluation_prediction = ifelse(lasso_prob > 0.5, 1, 0)) %>%
+  dplyr::select(-lasso_prob)
+
+# 5. Collect companies predicted to have overvaluation
+predicted_positive_overvaluation <- df_to_test %>% dplyr::select(code, overvaluation_prediction) %>% rename(pred_overvaluation=overvaluation_prediction)
+
+predicted_positive_overvaluation
+```
+
+## Results and Findings
+
+### Finding the companies that tick all four boxes
+
+```{r}
+combined_predictions <- predicted_positive_cr %>%
+  dplyr::select(code, pred_cr) %>%
+  full_join(
+    predicted_positive_dte %>% dplyr::select(code, pred_dte),
+    by = "code"
+  ) %>%
+  full_join(
+    predicted_positive_restatement %>% dplyr::select(code, pred_restated),
+    by = "code"
+  ) %>%
+  full_join(
+    predicted_positive_overvaluation %>% dplyr::select(code, pred_overvaluation),
+    by = "code"
+  ) %>% mutate(pred_restated = ifelse(pred_restated == 1,1,0))
+
+combined_predictions <- combined_predictions %>%
+  mutate(total_flags = pred_cr + pred_dte + pred_restated + pred_overvaluation)
+
+# Companies that have at least 3 flags
+high_risk_companies <- combined_predictions %>%
+  filter(total_flags == 4)
+
+head(combined_predictions)
+print(paste("Total companies:", nrow(combined_predictions)))
+print(paste("Companies with 4 flags:", nrow(high_risk_companies)))
+
+#company information
+company_info <- normal |> dplyr::select(code, company_name) |> distinct()
+ 
+high_risk <- high_risk_companies |> dplyr::select(code) |> left_join(company_info, by='code')
+high_risk # Flagged out companies
+```
+
+Once we had run the four models, out of the 4,865 companies found in the raw data, we obtained the result of 211 companies. In other words, about 1 in 25 companies are flagged up. Our group tried to conduct research for some of these companies and discovered that there are only a few examples of news articles we could use to see any examples of accounting manipulations. We have stated four companies below to highlight some of the cases we identified.
+
+### North China Pharmaceutical Company Ltd. (NCPC)
+
+This is a Chinese pharmaceutical enterprise specializing in the production and distribution of medications, with a focus on traditional Chinese medicine. In May 2020, the company was fined 600,000 yuan by the China Securities and Futures Division for financial fraud and an overstatement of incomes (Jabeen & Rani, 2024).
+
+Some of the methods by which NCPC committed financial misstatements include:
+- Cash on hand overstated by 29.944 billion,
+- Inventory understated by 19.546 billion
+- Operating income overstated by 8.898 billion
+- Operating cost overstated by 7.662 billion
+- Selling expenses understated by 0.497 billion
+- Management expenses understated by 0.228 billion
+
+The net effect of these actions resulted in the overstatement of the net profit of NCPC, resulting in the overstatement of the company’s equity. The misstatements gave investors a false sense of confidence in investing in NCPC.
+
+### Kerala Ayurvedic Limited (KAL)
+
+KAL is an Indian company specializing in the manufacturing and sale of Ayurvedic products, including therapeutic formulations, health supplements, skin and beauty care products, and specialty foods.
+
+In February 2020, Tata Global Beverages Limited (TGBL) alleged that KAL defaulted on a financial debt amounting to ₹42.5 million (S$684,000). The National Company Law Tribunal (NCLT) acknowledged this claim (Times of India, 2020).
+
+In May 2023, the Kerala Financial Corporation filed an Insolvency and Bankruptcy Code application against KAL, citing claims totaling approximately ₹286.4 million (S$4.64 million).
+
+The net effect of both these legal cases is that it significantly increased the liabilities of KAL, hence vastly increasing the debt-to-equity ratio. A higher ratio, coupled with the reputational loss of KAL for not being able to pay off its debts, highlights the lack of financial prudence taken by the organisation to see if it can take on debts.
+
+### Pharmaniaga Berhad
+
+Pharmaniaga is a pharmaceutical company based in Malaysia. In 2022, an independent audit by PwC showed that it was facing serious financial challenges. The group's short-term debts surpassed its short-term assets by RM632.1 million, while the company reported a negative equity position of RM227.4 million. Large impairment of unsold COVID-19 vaccines worth RM552.3 million resulted in the group net loss amounting to RM85.47 million and sinking share price by 50% (Free Malaysia Today, 2023). 
+
+Just a single restatement of their expired vaccine inventory results in a drastic drop in the current ratio and a high net loss. These concerning financial indicators suggest Pharmaniaga may struggle to remain operational unless it undergoes restructuring or receives external financial assistance.
+
+### IndoFarma Tbk PT
+
+IndoFarma is a state-owned manufacturer of medical supplies and medicines in Indonesia.
+
+The financial manipulations involved their subsidiary, IndoFarma Global Medika. Indofarma's financial problems were triggered by its subsidiary, PT Indofarma Global Medika (IGM), which led to state losses of Rp371.83 billion (US$23 million) (Indonesia Business Post, 2024).
+
+IndoFarma manipulated financial reports, which included "window dressing" to improve the appearance of its financial health, involving the recording of fictitious sales while the company was facing financial troubles, leading to substantial losses.
+
+The misstatements of the financial statements led to the loss of Rp371.83 billion, representing a significant blow to the state-owned company and the broader public sector. Furthermore, the fictitious reporting likely created a false impression of the company’s debt-to-equity ratio being healthy when it is not, resulting in poor decision-making by stakeholders, regulators, and investors.
+
+## Limitations
+
+We faced the following three main limitations when embarking on this project:
+
+### Incomplete Data
+
+Despite obtaining data from Wharton Research and Data Studies (WRDS), a reputable source in academic and financial research, there were still some empty cells when we first looked at the raw data. If we were to remove rows of data where there is even one cell of missing data, the number of observations left would be close to zero. Hence, we had to winsorise the data to make up for the missing data.
+
+### Varying Accounting and Healthcare Standards
+
+Since the healthcare companies’ data we obtained covered many countries globally, this means that the different companies are subject to different regulations depending on where they operate. This is why we decided to use the most basic indicators that transcend boundaries like current ratio and debt-to-equity ratio to compare the financial health of companies in different countries. But differing audit and accounting standard in varying countries means that the threshold of an auditor requesting for restatement varies from country to country.
+
+### Larger conglomerates
+
+Some of the companies in the data we obtained are part of the larger conglomerates, thus making it challenging to get a clear picture of its financial health. A key reason for this is due to internal transfers between different parts of the group being able to hide the true financial situation of the company and the group as a whole. This is especially true for multinational companies that move revenue and losses across borders to reduce taxes, making it difficult to accurately assess a company’s performance because they allow profits to be shifted to countries with lower tax rates and losses to be moved to countries with higher taxes. As a result, the financial data can be unclear, and the models we create may not fully reflect the company’s actual situation.
+
+## References
+Acharya, V. V., Philippon, T., Richardson, M., & Roubini, N. (2009). The financial crisis of 2007–2009: Causes and remedies. Journal of Corporate Finance, 15(3), 234–245. https://doi.org/10.1016/j.jcorpfin.2008.05.002
+
+Asian Century Stocks. (n.d.). Simple tricks to spot fraud. Asian Century Stocks. Retrieved from https://www.asiancenturystocks.com/p/simple-tricks-to-spot-fraud
+
+Berman, K., & Knight, J. (2009, September 16). Lehman’s three big mistakes. Harvard Business Review.https://hbr.org/2009/09/lessons-from-lehman
+
+Bhasin, M. L. (2013). Corporate accounting fraud: A case study of Satyam Computers Limited. Open Journal of Accounting, 2, 26–38. Available at SSRN: https://ssrn.com/abstract=2676467
+
+BBC News. (2003, December 23). Parmalat’s Calisto Tanzi arrested. BBC News. Retrieved from http://news.bbc.co.uk/2/hi/business/3345735.stm
+
+Center for Audit Quality. (2024, June). Financial restatement trends in the U.S.: 2013–2022. Center for Audit Quality. Retrieved from https://www.thecaq.org/financial-restatement-trends-us-2013-2022
+
+Chen, J. (2023, April 12). Current ratio: What it is and what it tells you. Investopedia. Retrieved from https://www.investopedia.com/terms/c/currentratio.asp
+
+Chen, Y., & Li, J. (2022). Financial misstatements and market responses: The case of Kangmei Pharmaceutical. Journal of Accounting and Public Policy, 41(2), 115–132. https://doi.org/xxxx
+
+Corporate Finance Institute. (n.d.). Altman’s Z-score model. Corporate Finance Institute. Retrieved from https://corporatefinanceinstitute.com/resources/commercial-lending/altmans-z-score-model/
+
+Corporate Finance Institute. (n.d.). Debt schedule. Corporate Finance Institute. Retrieved from https://corporatefinanceinstitute.com/resources/financial-modeling/debt-schedule/
+
+Corporate Finance Institute. (n.d.). Intangible assets. Corporate Finance Institute. Retrieved from https://corporatefinanceinstitute.com/resources/accounting/intangible-assets/
+
+CSIMarket. (2024). Industry financial strength ratios: Biotechnology & drugs industry. CSIMarket. Retrieved from https://csimarket.com/Industry/industry_Financial_Strength_Ratios.php?ind=1304
+
+CSIMarket. (2024). Industry financial strength ratios: Regional banks industry. CSIMarket. Retrieved from https://csimarket.com/Industry/industry_Financial_Strength_Ratios.php?ind=804
+
+Damodaran, A. (2025). Debt fund. NYU Stern School of Business. Retrieved from https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/dbtfund.html
+
+Fabricant, F. (2002, April 24). AOL posts loss of $54 billion. The New York Times. Retrieved from https://www.nytimes.com/2002/04/24/business/aol-posts-loss-of-54-billion.html
+
+Free Malaysia Today. (2023, February 28). Pharmaniaga shares plunge 43% after losses trigger PN17. Retrieved from https://www.freemalaysiatoday.com/category/highlight/2023/02/28/pharmaniaga-shares-plunge-43-after-losses-trigger-pn17/
+
+FullRatio. (n.d.). Current ratio by industry. FullRatio. Retrieved from https://fullratio.com/current-ratio-by-industry
+
+FullRatio. (n.d.). Debt to equity ratio by industry. FullRatio. Retrieved from https://fullratio.com/debt-to-equity-by-industry
+
+Gelles, D., & de la Merced, M. J. (2018, May 8). Valeant, Distancing Itself From Its Past, Will Change Its Name to Bausch Health. The New York Times. https://www.nytimes.com/2018/05/08/health/valeant-name-bausch-drugs.html
+
+History.com. (2009). Enron files for bankruptcy. Retrieved from https://www.history.com/this-day-in-history/december-2/enron-files-for-bankruptcy
+
+HG.org. (2023). 7 biggest healthcare fraud cases of 2023. HG.org Legal Resources. Retrieved from https://www.hg.org/legal-articles/7-biggest-healthcare-fraud-cases-of-2023
+
+Inagaki, K. (2015, September 7). Toshiba slashes earnings for past 7 years. The Wall Street Journal. Retrieved from https://www.wsj.com/articles/toshiba-slashes-earnings-for-past-7-years-1441589473
+
+Indonesia Business Post. (2024, May 21). BPK uncovers financial irregularities at PT Indofarma, resulting in state losses. Retrieved from https://indonesiabusinesspost.com/1959/Politics/bpk-uncovers-financial-irregularities-at-pt-indofarma-resulting-in-state-losses
+
+Ingram, P. L., & Malenko, N. (2022). The paradox of corporate debt growth: Valeant Pharmaceuticals and the limits of debt-financed acquisitions. Journal of Financial Economics, 143(2), 823-851.
+
+Isidore, C. (2003, March 19). HealthSouth hit with SEC fraud charges. CNN Money. Retrieved from https://money.cnn.com/2003/03/19/news/companies/healthsouth/
+
+Jabeen, S., & Rani, R. (2024). Corporate accounting fraud: Causes, consequences and detection tools. In Proceedings of the 5th International Conference on Digital Data and Economy (ICDDE 2024) (Vol. 173, Article 01024). SHS Web of Conferences. https://www.shs-conferences.org/articles/shsconf/pdf/2024/08/shsconf_icdde2024_01024.pdf
+
+JD Supra. (2024). Health care fraud and abuse: 2023 year in review. JD Supra. Retrieved from https://www.jdsupra.com/legalnews/health-care-fraud-and-abuse-2023-year-7533239
+
+Kagan, J. (2023, February 9). Inventory turnover ratio: What it is, how it works, and formula. Investopedia. Retrieved from https://www.investopedia.com/terms/i/inventoryturnover.asp
+
+Kagan, J. (2023, February 10). Revenue recognition: Principles, methods, and examples. Investopedia. Retrieved from https://www.investopedia.com/terms/r/revenuerecognition.asp
+
+Kenton, W. (2023, March 2). WorldCom: What happened, and key facts. Investopedia. Retrieved from https://www.investopedia.com/terms/w/worldcom.asp
+
+Kenton, W. (2023, March 5). Overvalued: What it means in investing. Investopedia. Retrieved from https://www.investopedia.com/terms/o/overvalued.asp
+
+Kenton, W. (2023, March 21). Market capitalization: What it means and how it’s calculated. Investopedia. Retrieved from https://www.investopedia.com/terms/m/marketcapitalization.asp
+
+Kenton, W. (2023, March 25). Research and development (R&D): What it is, with examples. Investopedia. Retrieved from https://www.investopedia.com/terms/r/randd.asp
+
+Kumar, S., & Yamaoka, Y. (2008). Helicobacter pylori and gastric cancer. Biological Chemistry, 389(9), 1007–1014. https://www.sciencedirect.com/science/article/abs/pii/S0929119908000552
+
+Marciukaityte, D., & Varma, R. (2008). Consequences of overvalued equity: Evidence from earnings manipulation. Journal of Corporate Finance, 14(4), 418–430.
+
+Maverick, J. B. (2025, March 20). Key financial ratios for pharmaceutical companies. Investopedia. Retrieved from https://www.investopedia.com/articles/financial-analysis/090616/key-financial-ratios-pharmaceutical-companies.asp
+
+Murphy, C. B. (2023, February 26). Cash flow statement: What it is and how to read it. Investopedia. Retrieved from https://www.investopedia.com/terms/c/cashflowstatement.asp
+
+Murphy, C. B. (2023, April 6). Property, plant, and equipment (PP&E): What it is and how it works. Investopedia.Retrieved from https://www.investopedia.com/terms/p/ppe.asp
+
+Nasr, J., & Schuetze, A. (2020, June 25). ‘Total disaster’: Phantom billions plunge Wirecard into chaos. Reuters. Retrieved from https://www.reuters.com/article/technology/total-disaster-phantom-billions-plunge-wirecard-into-chaos-idUSKBN23T06V/
+
+Public Company Accounting Oversight Board. (n.d.). AS 3101: The auditor’s report on an audit of financial statements. PCAOB. Retrieved from https://pcaobus.org/oversight/standards/auditing-standards/details/AS3101
+
+Rathburn, T. (2023, January 12). Return on equity (ROE): Definition and how to calculate it. The Balance. Retrieved from https://www.thebalancemoney.com/return-on-equity-roe-357601
+
+Rathburn, T. (2023, January 20). Selling, general & administrative expenses (SG&A): Definition. The Balance. Retrieved from https://www.thebalancemoney.com/selling-general-and-administrative-expenses-sga-357595
+
+ReadyRatios. (2023). Health services: Industry financial ratios benchmarking. ReadyRatios. Retrieved from https://www.readyratios.com/sec/industry/80/
+
+Securities and Exchange Commission. (2002). SEC Complaint No. 17829. U.S. Securities and Exchange Commission.Retrieved from https://www.sec.gov/litigation/complaints/comp17829.htm
+Securities and Exchange Commission. (2020, December 4). SEC charges General Electric with disclosure failures. U.S. Securities and Exchange Commission. Retrieved from https://www.sec.gov/newsroom/press-releases/2020-319
+
+Story, L., & Morgenson, G. (2010, March 12). Lehman channeled risks through ‘alter ego’ firm. The New York Times.Retrieved from https://www.nytimes.com/2010/03/13/business/13lehman.html
+
+Tan, A., & Benoit, D. (2017, March 13). William Ackman’s Pershing Square Sold Stake in Valeant. The Wall Street Journal. https://www.wsj.com/articles/william-ackmans-pershing-square-sold-stake-in-valeant-1489439314
+
+Times of India. (2020, March 17). NCLAT rejects Kerala Ayurveda’s plea. Retrieved from
+https://timesofindia.indiatimes.com/nclat-rejects-kerala-ayurvedas-plea/articleshow/74677720.cms
+
+Transparently.AI. (n.d.). The Valeant scandal: A cautionary tale. Transparently.AI Blog. Retrieved from https://www.transparently.ai/blog/the-valeant-scandal
+
+United States v. Holmes, No. 5:18-cr-00258-EJD (N.D. Cal. 2022). Retrieved from https://en.wikipedia.org/wiki/United_States_v._Elizabeth_A._Holmes,_et_al
+
+U.S. Department of Justice. (2022, January 3). Theranos founder Elizabeth Holmes found guilty of investor fraud. U.S. Department of Justice. Retrieved from https://www.justice.gov/usao-ndca/pr/theranos-founder-elizabeth-holmes-found-guilty-investor-fraud
